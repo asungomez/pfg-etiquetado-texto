@@ -1,1 +1,2 @@
-export { AuthenticationLayout } from './authentication';
+export * from './authentication';
+export * from './common';
