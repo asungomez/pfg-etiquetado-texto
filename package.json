@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@elastic/datemath": "^5.0.3",
+    "@elastic/eui": "^37.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -10,25 +12,39 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.1.8",
+    "formik": "^2.2.9",
+    "moment": "^2.29.1",
+    "node-sass": "^5.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "echo \"Linting...\" && eslint \"./src/**/*.tsx\"",
+    "lint": "echo \"Linting...\" && eslint \"./src/**/*.tsx\" \"./src/**/*.ts\"",
     "format": "yarn --silent lint --fix"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
-    ]
+      "react-app/jest",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "simple-import-sort"
+    ],
+    "rules": {
+      "simple-import-sort/imports": "error",
+      "import/order": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -43,13 +59,9 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.29.0",
-    "@typescript-eslint/parser": "^4.29.0",
-    "eslint": "^7.32.0",
-    "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "prettier": "^2.3.2"
   }
 }
