@@ -1,6 +1,8 @@
 import argparse
 from libs.repository import clone_repository
 import os
+from libs.deploy import deploy_amplify_app
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -36,7 +38,7 @@ def parse_args():
     )
 
     parser.add_argument(
-        "--githu-branch",
+        "--github-branch",
         help="Repository's branch",
         default="master"
     )
@@ -50,6 +52,7 @@ def run(args):
     os.environ['AWS_PROFILE'] = args.aws_profile
     os.environ['REGION'] = args.aws_region
     clone_repository(args.github_repo, args.github_token, args.github_branch)
+    deploy_amplify_app(args.app_name, args.github_token, args.github_repo)
 
 
 def main():

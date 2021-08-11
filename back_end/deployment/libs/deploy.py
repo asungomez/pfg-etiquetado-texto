@@ -35,7 +35,7 @@ def deploy(template, env):
     try:
         subprocess.check_call(
             call_args,
-            cwd=os.environ['INFRASTRUCTURE_PATH']
+            cwd=INFRA_DIR
         )
     except subprocess.CalledProcessError as e:
         print(

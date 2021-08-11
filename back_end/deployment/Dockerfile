@@ -17,7 +17,7 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-RUN npm i -g serverless@2.43.1
+RUN npm i -g serverless@2.53.1
 
 COPY libs /deployment/libs
 COPY main.py /deployment/main.py
