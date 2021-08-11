@@ -1,0 +1,327 @@
+{
+  "service": {
+    "service": "amplify-app",
+    "serviceObject": {
+      "name": "amplify-app"
+    },
+    "provider": {
+      "name": "aws",
+      "profile": "admin-personal",
+      "region": "us-east-2",
+      "deploymentBucket": "prueba-deployment-bucket",
+      "stackName": "prueba-amplify-app",
+      "stage": "dev",
+      "versionFunctions": true,
+      "deploymentBucketObject": {
+        "name": "prueba-deployment-bucket"
+      },
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "AmplifyRole": {
+            "Type": "AWS::IAM::Role",
+            "DeletionPolicy": "Delete",
+            "Properties": {
+              "RoleName": "prueba-amplify-role",
+              "Description": "Amplify app IAM role",
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "amplify.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "AmplifyApp": {
+            "DependsOn": [
+              "AmplifyRole"
+            ],
+            "Type": "AWS::Amplify::App",
+            "DeletionPolicy": "Delete",
+            "Properties": {
+              "CustomRules": [
+                {
+                  "Source": "/site.webmanifest",
+                  "Status": "200",
+                  "Target": "/site.webmanifest"
+                },
+                {
+                  "Source": "/icon.ico",
+                  "Status": "200",
+                  "Target": "/icon.ico"
+                },
+                {
+                  "Source": "/icon16x16.png",
+                  "Status": "200",
+                  "Target": "/icon16x16.png"
+                },
+                {
+                  "Source": "/icon32x32.png",
+                  "Status": "200",
+                  "Target": "/icon32x32.png"
+                },
+                {
+                  "Source": "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json)$)([^.]+$)/>",
+                  "Status": "200",
+                  "Target": "/index.html"
+                },
+                {
+                  "Source": "/<*>",
+                  "Status": "404",
+                  "Target": "/index.html"
+                }
+              ],
+              "Description": "Amplify app for React app",
+              "EnableBranchAutoDeletion": false,
+              "EnvironmentVariables": [
+                {
+                  "Name": "CHOKIDAR_USEPOLLING",
+                  "Value": "1"
+                },
+                {
+                  "Name": "CI",
+                  "Value": "1"
+                },
+                {
+                  "Name": "_LIVE_UPDATES",
+                  "Value": "[{\"pkg\":\"@aws-amplify/cli\",\"type\":\"npm\",\"version\":\"latest\"}]"
+                }
+              ],
+              "IAMServiceRole": {
+                "Fn::GetAtt": [
+                  "AmplifyRole",
+                  "Arn"
+                ]
+              },
+              "Name": "prueba-amplify-app",
+              "OauthToken": "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"
+            }
+          },
+          "AmplifyRolePolicy": {
+            "DependsOn": [
+              "AmplifyRole",
+              "AmplifyApp"
+            ],
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+              "PolicyName": "prueba-amplify-app",
+              "Roles": [
+                {
+                  "Ref": "AmplifyRole"
+                }
+              ],
+              "PolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "amplify:*"
+                    ],
+                    "Resource": {
+                      "Fn::GetAtt": [
+                        "AmplifyApp",
+                        "Arn"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "prueba-deployment-bucket",
+            "Export": {
+              "Name": "sls-amplify-app-dev-ServerlessDeploymentBucketName"
+            }
+          },
+          "AppId": {
+            "Description": "Amplify App ID",
+            "Value": {
+              "Fn::GetAtt": [
+                "AmplifyApp",
+                "AppId"
+              ]
+            },
+            "Export": {
+              "Name": "prueba-amplify-app-id"
+            }
+          }
+        }
+      }
+    },
+    "pluginsData": {},
+    "functions": {},
+    "resources": {
+      "Resources": {
+        "AmplifyRole": {
+          "Type": "AWS::IAM::Role",
+          "DeletionPolicy": "Delete",
+          "Properties": {
+            "RoleName": "prueba-amplify-role",
+            "Description": "Amplify app IAM role",
+            "AssumeRolePolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Principal": {
+                    "Service": [
+                      "amplify.amazonaws.com"
+                    ]
+                  },
+                  "Action": [
+                    "sts:AssumeRole"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "AmplifyApp": {
+          "DependsOn": [
+            "AmplifyRole"
+          ],
+          "Type": "AWS::Amplify::App",
+          "DeletionPolicy": "Delete",
+          "Properties": {
+            "CustomRules": [
+              {
+                "Source": "/site.webmanifest",
+                "Status": "200",
+                "Target": "/site.webmanifest"
+              },
+              {
+                "Source": "/icon.ico",
+                "Status": "200",
+                "Target": "/icon.ico"
+              },
+              {
+                "Source": "/icon16x16.png",
+                "Status": "200",
+                "Target": "/icon16x16.png"
+              },
+              {
+                "Source": "/icon32x32.png",
+                "Status": "200",
+                "Target": "/icon32x32.png"
+              },
+              {
+                "Source": "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json)$)([^.]+$)/>",
+                "Status": "200",
+                "Target": "/index.html"
+              },
+              {
+                "Source": "/<*>",
+                "Status": "404",
+                "Target": "/index.html"
+              }
+            ],
+            "Description": "Amplify app for React app",
+            "EnableBranchAutoDeletion": false,
+            "EnvironmentVariables": [
+              {
+                "Name": "CHOKIDAR_USEPOLLING",
+                "Value": "1"
+              },
+              {
+                "Name": "CI",
+                "Value": "1"
+              },
+              {
+                "Name": "_LIVE_UPDATES",
+                "Value": "[{\"pkg\":\"@aws-amplify/cli\",\"type\":\"npm\",\"version\":\"latest\"}]"
+              }
+            ],
+            "IAMServiceRole": {
+              "Fn::GetAtt": [
+                "AmplifyRole",
+                "Arn"
+              ]
+            },
+            "Name": "prueba-amplify-app",
+            "OauthToken": "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"
+          }
+        },
+        "AmplifyRolePolicy": {
+          "DependsOn": [
+            "AmplifyRole",
+            "AmplifyApp"
+          ],
+          "Type": "AWS::IAM::Policy",
+          "Properties": {
+            "PolicyName": "prueba-amplify-app",
+            "Roles": [
+              {
+                "Ref": "AmplifyRole"
+              }
+            ],
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "amplify:*"
+                  ],
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "AmplifyApp",
+                      "Arn"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "Outputs": {
+        "AppId": {
+          "Description": "Amplify App ID",
+          "Value": {
+            "Fn::GetAtt": [
+              "AmplifyApp",
+              "AppId"
+            ]
+          },
+          "Export": {
+            "Name": "prueba-amplify-app-id"
+          }
+        }
+      }
+    },
+    "configValidationMode": "warn",
+    "serviceFilename": "app.yml",
+    "initialServerlessConfig": {
+      "service": {
+        "$ref": "$[\"service\"][\"serviceObject\"]"
+      },
+      "provider": {
+        "$ref": "$[\"service\"][\"provider\"]"
+      },
+      "resources": {
+        "$ref": "$[\"service\"][\"resources\"]"
+      }
+    },
+    "layers": {},
+    "isDashboardMonitoringPreconfigured": false
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/amplify-app/dev/1628699642893-2021-08-11T16:34:02.893Z",
+    "artifact": ""
+  }
+}
