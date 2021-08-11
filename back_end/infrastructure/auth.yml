@@ -1,0 +1,9 @@
+service: authentication
+
+provider:
+  name: aws
+  profile: ${opt:aws-profile}
+  region: ${opt:region}
+  deploymentBucket:
+    name: ${env:APP_NAME}-deployment-bucket
+  stackName: ${env:APP_NAME}-authentication
