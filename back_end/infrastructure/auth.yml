@@ -34,32 +34,24 @@ resources:
               Principal:
                 Federated: cognito-identity.amazonaws.com
               Action: 'sts:AssumeRoleWithWebIdentity'
-    # CustomMessageConfirmationBucket:
-    #   Type: AWS::S3::Bucket
-    #   Properties:
-    #     BucketName:
-    #       Fn::If:
-    #         - ShouldNotCreateEnvResources
-    #         - Ref: verificationBucketName
-    #         - Fn::Join:
-    #             - ''
-    #             - - Ref: verificationBucketName
-    #               - '-'
-    #               - Ref: env
-    #     AccessControl: Private
-    #     WebsiteConfiguration:
-    #       IndexDocument: index.html
-    #       ErrorDocument: index.html
-    #     CorsConfiguration:
-    #       CorsRules:
-    #         - AllowedHeaders:
-    #             - Authorization
-    #             - Content-Length
-    #           AllowedMethods:
-    #             - GET
-    #           AllowedOrigins:
-    #             - '*'
-    #           MaxAge: '3000'
+    CustomMessageConfirmationBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${env:APP_NAME}-verification-bucket
+        AccessControl: Private
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: index.html
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - Authorization
+                - Content-Length
+              AllowedMethods:
+                - GET
+              AllowedOrigins:
+                - '*'
+              MaxAge: '3000'
     # SNSRole:
     #   Type: AWS::IAM::Role
     #   Properties:
