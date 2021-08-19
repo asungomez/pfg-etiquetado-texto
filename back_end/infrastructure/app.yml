@@ -106,5 +106,5 @@ resources:
         DomainName: asunpersonal.com
         SubDomainSettings:
           - BranchName: ${env:GH_BRANCH}
-            Prefix: AppId
+            Prefix: app
 
