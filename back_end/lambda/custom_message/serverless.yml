@@ -14,3 +14,11 @@ functions:
     runtime: python3.8
     timeout: 300
     handler: custom_message.handler
+
+resources:
+  extensions:
+    CustomMessageLambdaFunction:
+      Properties:
+        Environment:
+          Variables:
+            APP_BASE_URL: ${env:APP_BASE_URL}

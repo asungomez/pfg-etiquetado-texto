@@ -48,6 +48,12 @@ def parse_args():
         default="master"
     )
 
+    parser.add_argument(
+        "--domain-name",
+        help="Domain name",
+        required=True
+    )
+
     arguments = parser.parse_args()
 
     return arguments

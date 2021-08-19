@@ -103,7 +103,7 @@ resources:
       Type: 'AWS::Amplify::Domain'
       Properties:
         AppId: !GetAtt AmplifyApp.AppId
-        DomainName: asunpersonal.com
+        DomainName: ${env:DOMAIN_NAME}
         SubDomainSettings:
           - BranchName: ${env:GH_BRANCH}
             Prefix: app

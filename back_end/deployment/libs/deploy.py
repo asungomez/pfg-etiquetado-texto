@@ -4,12 +4,20 @@ import subprocess
 INFRA_DIR = f"{os.environ['REPO_DIR']}/back_end/infrastructure"
 LAMBDA_DIR = f"{os.environ['REPO_DIR']}/back_end/lambda"
 
-def deploy_amplify_app(app_name, github_token, github_repository, github_branch):
+def deploy_amplify_app(
+  app_name, 
+  github_token, 
+  github_repository, 
+  github_branch,
+  domain_name
+  ):
+
   environment = {
     "APP_NAME": app_name,
     "GH_TOKEN": github_token,
     "GH_REPO": github_repository,
-    "GH_BRANCH": github_branch
+    "GH_BRANCH": github_branch,
+    "DOMAIN_NAME": domain_name
   }
 
   deploy(
@@ -29,9 +37,10 @@ def deploy_auth(app_name):
     template="auth.yml"
   )
 
-def deploy_custom_message(app_name):
+def deploy_custom_message(app_name, domain_name):
   environment = {
-    "APP_NAME": app_name
+    "APP_NAME": app_name,
+    "APP_BASE_URL": f"app.{domain_name}"
   }
 
   deploy(
