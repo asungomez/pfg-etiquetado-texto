@@ -100,8 +100,8 @@ resources:
           - Name: _LIVE_UPDATES
             Value: '[{"pkg":"@aws-amplify/cli","type":"npm","version":"latest"}]'
     AmplifyDomain:
-    Type: 'AWS::Amplify::Domain'
-    Properties:
-      AppId: !Ref AmplifyApp
-      DomainName: asunpersonal.com
+      Type: 'AWS::Amplify::Domain'
+      Properties:
+        AppId: !Ref AmplifyApp
+        DomainName: asunpersonal.com
 
