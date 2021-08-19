@@ -1,13 +1,11 @@
 import {
   EuiButton,
   EuiCallOut,
-  EuiFieldPassword,
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiForm,
   EuiFormRow,
-  EuiInputPopover,
   EuiLink,
   EuiSpacer,
   EuiText,
@@ -18,7 +16,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { Link, PasswordChecker } from '../../../components';
+import { Link, PasswordField } from '../../../components';
 import { usePasswordContext } from '../../../contexts';
 import { AuthenticationService } from '../../../services';
 
@@ -35,7 +33,7 @@ const initialValues: SignUpFormValues = {
 export const SignUp: React.FC<{}> = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string>(null);
-  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(true);
 
   const { policy } = usePasswordContext();
   const history = useHistory();
@@ -56,7 +54,6 @@ export const SignUp: React.FC<{}> = () => {
       .email('No es una dirección de email válida'),
   });
 
-  const openPopover = () => setPopoverOpen(true);
   const closePopover = () => setPopoverOpen(false);
 
   const submit = ({ email, password }: SignUpFormValues) => {
@@ -130,25 +127,11 @@ export const SignUp: React.FC<{}> = () => {
                 isInvalid={errors.password && touched.password}
                 error={errors.password}
               >
-                <EuiInputPopover
-                  isOpen={popoverOpen}
-                  closePopover={closePopover}
-                  input={
-                    <EuiFieldPassword
-                      name="password"
-                      type="dual"
-                      value={values.password}
-                      onChange={handleChange}
-                      onFocus={openPopover}
-                      onBlur={e => {
-                        closePopover();
-                        handleBlur(e);
-                      }}
-                    />
-                  }
-                >
-                  <PasswordChecker password={values.password} />
-                </EuiInputPopover>
+                <PasswordField
+                  value={values.password}
+                  onChange={handleChange}
+                  displayRestrictions={popoverOpen}
+                />
               </EuiFormRow>
               <EuiSpacer size="xl" />
               <EuiFormRow>

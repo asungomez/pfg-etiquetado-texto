@@ -1,1 +1,1 @@
-export { AuthenticationLayout } from './authentication_layout';
+export * from './authentication_layout';
