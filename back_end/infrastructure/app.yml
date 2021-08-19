@@ -82,7 +82,7 @@ resources:
     AmplifyBranch:
       Type: AWS::Amplify::Branch
       Properties: 
-        AppId: !Ref AmplifyApp
+        AppId: !GetAtt AmplifyApp.AppId
         BranchName: ${env:GH_BRANCH}
         Description: Deployment branch for Amplify app
         EnableAutoBuild: true
@@ -102,6 +102,9 @@ resources:
     AmplifyDomain:
       Type: 'AWS::Amplify::Domain'
       Properties:
-        AppId: !Ref AmplifyApp
+        AppId: !GetAtt AmplifyApp.AppId
         DomainName: asunpersonal.com
+        SubDomainSettings:
+          - BranchName: ${env:GH_BRANCH}
+            Prefix: AppId
 
