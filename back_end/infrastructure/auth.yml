@@ -8,6 +8,13 @@ provider:
     name: ${env:APP_NAME}-deployment-bucket
   stackName: ${env:APP_NAME}-authentication
 
+functions:
+  customMessage:
+    name: ${env:APP_NAME}-custom-message
+    runtime: python3.8
+    timeout: 300
+    handler: ../lambda/custom_message.handler
+
 resources:
   Resources:
     AuthRole:
