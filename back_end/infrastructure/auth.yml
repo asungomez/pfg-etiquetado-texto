@@ -139,70 +139,56 @@ resources:
         UserPoolId:
           Ref: UserPool
       DependsOn: UserPool
-    # UserPoolClientRole:
-    #   Type: AWS::IAM::Role
-    #   Properties:
-    #     RoleName:
-    #       Fn::If:
-    #         - ShouldNotCreateEnvResources
-    #         - Ref: userpoolClientLambdaRole
-    #         - Fn::Join:
-    #             - ''
-    #             - - upClientLambdaRole
-    #               - ee9e612f
-    #               - Fn::Select:
-    #                   - '3'
-    #                   - Fn::Split:
-    #                       - '-'
-    #                       - Ref: AWS::StackName
-    #               - '-'
-    #               - Ref: env
-    #     AssumeRolePolicyDocument:
-    #       Version: '2012-10-17'
-    #       Statement:
-    #         - Effect: Allow
-    #           Principal:
-    #             Service:
-    #               - lambda.amazonaws.com
-    #           Action:
-    #             - sts:AssumeRole
-    #   DependsOn: UserPoolClient
-    # UserPoolClientLambda:
-    #   Type: AWS::Lambda::Function
-    #   Properties:
-    #     Code:
-    #       ZipFile:
-    #         Fn::Join:
-    #           - ''
-    #           - - const response = require('cfn-response');
-    #             - const aws = require('aws-sdk');
-    #             - const identity = new aws.CognitoIdentityServiceProvider();
-    #             - exports.handler = (event, context, callback) => {
-    #             - ' if (event.RequestType == ''Delete'') { '
-    #             - '   response.send(event, context, response.SUCCESS, {})'
-    #             - ' }'
-    #             - ' if (event.RequestType == ''Update'' || event.RequestType == ''Create'') {'
-    #             - '   const params = {'
-    #             - '     ClientId: event.ResourceProperties.clientId,'
-    #             - '     UserPoolId: event.ResourceProperties.userpoolId'
-    #             - '   };'
-    #             - '   identity.describeUserPoolClient(params).promise()'
-    #             - '     .then((res) => {'
-    #             - '       response.send(event, context, response.SUCCESS, {''appSecret'': res.UserPoolClient.ClientSecret});'
-    #             - '     })'
-    #             - '     .catch((err) => {'
-    #             - '       response.send(event, context, response.FAILED, {err});'
-    #             - '     });'
-    #             - ' }'
-    #             - '};'
-    #     Handler: index.handler
-    #     Runtime: nodejs12.x
-    #     Timeout: '300'
-    #     Role:
-    #       Fn::GetAtt:
-    #         - UserPoolClientRole
-    #         - Arn
-    #   DependsOn: UserPoolClientRole
+    UserPoolClientRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${env:APP_NAME}-user-pool-client-role
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action:
+                - sts:AssumeRole
+      DependsOn: UserPoolClient
+    UserPoolClientLambda:
+      Type: AWS::Lambda::Function
+      Properties:
+        Code:
+          ZipFile:
+            Fn::Join:
+              - ''
+              - - const response = require('cfn-response');
+                - const aws = require('aws-sdk');
+                - const identity = new aws.CognitoIdentityServiceProvider();
+                - exports.handler = (event, context, callback) => {
+                - ' if (event.RequestType == ''Delete'') { '
+                - '   response.send(event, context, response.SUCCESS, {})'
+                - ' }'
+                - ' if (event.RequestType == ''Update'' || event.RequestType == ''Create'') {'
+                - '   const params = {'
+                - '     ClientId: event.ResourceProperties.clientId,'
+                - '     UserPoolId: event.ResourceProperties.userpoolId'
+                - '   };'
+                - '   identity.describeUserPoolClient(params).promise()'
+                - '     .then((res) => {'
+                - '       response.send(event, context, response.SUCCESS, {''appSecret'': res.UserPoolClient.ClientSecret});'
+                - '     })'
+                - '     .catch((err) => {'
+                - '       response.send(event, context, response.FAILED, {err});'
+                - '     });'
+                - ' }'
+                - '};'
+        Handler: index.handler
+        Runtime: nodejs12.x
+        Timeout: '300'
+        Role:
+          Fn::GetAtt:
+            - UserPoolClientRole
+            - Arn
+      DependsOn: UserPoolClientRole
     # UserPoolClientLambdaPolicy:
     #   Type: AWS::IAM::Policy
     #   Properties:
