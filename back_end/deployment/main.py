@@ -2,7 +2,7 @@ import argparse
 
 from libs.repository import clone_repository
 import os
-from libs.deploy import deploy_amplify_app
+from libs.deploy import deploy_amplify_app, deploy_auth
 from libs.aws import create_deployment_bucket
 import logging
 
@@ -59,6 +59,7 @@ def run(args):
     create_deployment_bucket(args.app_name)
     clone_repository(args.github_repo, args.github_token, args.github_branch)
     deploy_amplify_app(args.app_name, args.github_token, args.github_repo)
+    deploy_auth(args.app_name)
 
 
 def main():

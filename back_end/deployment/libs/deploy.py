@@ -15,6 +15,16 @@ def deploy_amplify_app(app_name, github_token, github_repository):
     environment
   )
 
+def deploy_auth(app_name):
+  environment = {
+    "APP_NAME": app_name
+  }
+
+  deploy(
+    f"{INFRA_DIR}/auth.yml",
+    environment
+  )
+
 
 def deploy(template, env):
 
