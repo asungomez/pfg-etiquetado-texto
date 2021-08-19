@@ -68,7 +68,8 @@ def run(args):
         args.app_name, 
         args.github_token, 
         args.github_repo,
-        args.github_branch
+        args.github_branch,
+        args.domain_name
     )
     deploy_custom_message(args.app_name)
     deploy_auth(args.app_name)
