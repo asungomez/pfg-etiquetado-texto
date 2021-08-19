@@ -64,8 +64,8 @@ def run(args):
         args.github_repo,
         args.github_branch
     )
-    deploy_custom_message(args.app_name)
     deploy_auth(args.app_name)
+    deploy_custom_message(args.app_name)
 
 
 def main():
