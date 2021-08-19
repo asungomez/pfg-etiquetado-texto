@@ -79,11 +79,29 @@ resources:
               Action:
                 - amplify:*
               Resource: !GetAtt AmplifyApp.Arn
-  Outputs:
-    AppId:
-      Description: Amplify App ID
-      Value: !GetAtt 
-        - AmplifyApp
-        - AppId
-      Export:
-        Name: ${env:APP_NAME}-amplify-app-id
+    AmplifyBranch:
+      Type: AWS::Amplify::Branch
+      Properties: 
+        AppId: !Ref AmplifyApp
+        BranchName: ${env:GH_BRANCH}
+        Description: Deployment branch for Amplify app
+        EnableAutoBuild: true
+        EnablePerformanceMode: false
+        EnablePullRequestPreview: false
+        EnvironmentVariables: 
+          - Name: USER_BRANCH
+            Value: ${env:GH_BRANCH}
+          - Name: CHOKIDAR_USEPOLLING
+            Value: '1'
+          - Name: CI
+            Value: '1'
+          - Name: REACT_APP_LOCAL
+            Value: 'false'
+          - Name: _LIVE_UPDATES
+            Value: '[{"pkg":"@aws-amplify/cli","type":"npm","version":"latest"}]'
+    AmplifyDomain:
+    Type: 'AWS::Amplify::Domain'
+    Properties:
+      AppId: !Ref AmplifyApp
+      DomainName: asunpersonal.com
+

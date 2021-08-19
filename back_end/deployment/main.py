@@ -58,7 +58,12 @@ def run(args):
     os.environ['REGION'] = args.aws_region
     create_deployment_bucket(args.app_name)
     clone_repository(args.github_repo, args.github_token, args.github_branch)
-    deploy_amplify_app(args.app_name, args.github_token, args.github_repo)
+    deploy_amplify_app(
+        args.app_name, 
+        args.github_token, 
+        args.github_repo,
+        args.github_branch
+    )
     deploy_auth(args.app_name)
 
 

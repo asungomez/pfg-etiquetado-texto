@@ -3,11 +3,12 @@ import subprocess
 
 INFRA_DIR = f"{os.environ['REPO_DIR']}/back_end/infrastructure"
 
-def deploy_amplify_app(app_name, github_token, github_repository):
+def deploy_amplify_app(app_name, github_token, github_repository, github_branch):
   environment = {
     "APP_NAME": app_name,
     "GH_TOKEN": github_token,
-    "GH_REPO": github_repository
+    "GH_REPO": github_repository,
+    "GH_BRANCH": github_branch
   }
 
   deploy(
