@@ -8,6 +8,9 @@ provider:
     name: ${env:APP_NAME}-deployment-bucket
   stackName: ${env:APP_NAME}-authentication
 
+custom:
+  sns-id: ${env:APP_NAME}-sts-id
+
 resources:
   Resources:
     AuthRole:
@@ -52,45 +55,31 @@ resources:
               AllowedOrigins:
                 - '*'
               MaxAge: '3000'
-    # SNSRole:
-    #   Type: AWS::IAM::Role
-    #   Properties:
-    #     RoleName:
-    #       Fn::If:
-    #         - ShouldNotCreateEnvResources
-    #         - demogree9e612f_sns-role
-    #         - Fn::Join:
-    #             - ''
-    #             - - sns
-    #               - ee9e612f
-    #               - Fn::Select:
-    #                   - '3'
-    #                   - Fn::Split:
-    #                       - '-'
-    #                       - Ref: AWS::StackName
-    #               - '-'
-    #               - Ref: env
-    #     AssumeRolePolicyDocument:
-    #       Version: '2012-10-17'
-    #       Statement:
-    #         - Sid: ''
-    #           Effect: Allow
-    #           Principal:
-    #             Service: cognito-idp.amazonaws.com
-    #           Action:
-    #             - sts:AssumeRole
-    #           Condition:
-    #             StringEquals:
-    #               sts:ExternalId: demogree9e612f_role_external_id
-    #     Policies:
-    #       - PolicyName: demogree9e612f-sns-policy
-    #         PolicyDocument:
-    #           Version: '2012-10-17'
-    #           Statement:
-    #             - Effect: Allow
-    #               Action:
-    #                 - sns:Publish
-    #               Resource: '*'
+    SNSRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${env:APP_NAME}-sns-role
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Sid: ''
+              Effect: Allow
+              Principal:
+                Service: cognito-idp.amazonaws.com
+              Action:
+                - sts:AssumeRole
+              Condition:
+                StringEquals:
+                  sts:ExternalId: ${custom:sns-id}
+        Policies:
+          - PolicyName: ${env:APP_NAME}-sns-policy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - sns:Publish
+                  Resource: '*'
     # UserPool:
     #   Type: AWS::Cognito::UserPool
     #   UpdateReplacePolicy: Retain
