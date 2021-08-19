@@ -19,6 +19,7 @@ deployment/repository
 .env.test.local
 .env.production.local
 .serverless
+__pycache__
 
 npm-debug.log*
 yarn-debug.log*

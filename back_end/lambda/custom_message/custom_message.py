@@ -1,7 +1,7 @@
 from libs.templates import confirm_new_account_template, forgot_password_template
 import os
 
-def handler(event):
+def handler(event, context):
   event_type = event["triggerSource"]
 
   # Regular sign up and resend confirmation code requests
