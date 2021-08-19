@@ -130,17 +130,15 @@ resources:
         UserPoolId:
           Ref: UserPool
       DependsOn: UserPool
-    # UserPoolClient:
-    #   Type: AWS::Cognito::UserPoolClient
-    #   Properties:
-    #     ClientName: demogree9e612f_app_client
-    #     GenerateSecret:
-    #       Ref: userpoolClientGenerateSecret
-    #     RefreshTokenValidity:
-    #       Ref: userpoolClientRefreshTokenValidity
-    #     UserPoolId:
-    #       Ref: UserPool
-    #   DependsOn: UserPool
+    UserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: ${env:APP_NAME}-client-cf
+        GenerateSecret: 'true'
+        RefreshTokenValidity: 30
+        UserPoolId:
+          Ref: UserPool
+      DependsOn: UserPool
     # UserPoolClientRole:
     #   Type: AWS::IAM::Role
     #   Properties:
