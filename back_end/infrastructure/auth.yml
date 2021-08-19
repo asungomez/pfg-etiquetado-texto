@@ -243,48 +243,46 @@ resources:
         userpoolId:
           Ref: UserPool
       DependsOn: UserPoolClientLogPolicy
-    # IdentityPool:
-    #   Type: AWS::Cognito::IdentityPool
-    #   Properties:
-    #     IdentityPoolName:
-    #       Fn::If:
-    #         - ShouldNotCreateEnvResources
-    #         - demografiapfgee9e612f_identitypool_ee9e612f
-    #         - Fn::Join:
-    #             - ''
-    #             - - demografiapfgee9e612f_identitypool_ee9e612f
-    #               - __
-    #               - Ref: env
-    #     CognitoIdentityProviders:
-    #       - ClientId:
-    #           Ref: UserPoolClient
-    #         ProviderName:
-    #           Fn::Sub:
-    #             - cognito-idp.${region}.amazonaws.com/${client}
-    #             - region:
-    #                 Ref: AWS::Region
-    #               client:
-    #                 Ref: UserPool
-    #       - ClientId:
-    #           Ref: UserPoolClientWeb
-    #         ProviderName:
-    #           Fn::Sub:
-    #             - cognito-idp.${region}.amazonaws.com/${client}
-    #             - region:
-    #                 Ref: AWS::Region
-    #               client:
-    #                 Ref: UserPool
-    #     AllowUnauthenticatedIdentities:
-    #       Ref: allowUnauthenticatedIdentities
-    #   DependsOn: UserPoolClientInputs
-    # IdentityPoolRoleMap:
-    #   Type: AWS::Cognito::IdentityPoolRoleAttachment
-    #   Properties:
-    #     IdentityPoolId:
-    #       Ref: IdentityPool
-    #     Roles:
-    #       unauthenticated:
-    #         Ref: unauthRoleArn
-    #       authenticated:
-    #         Ref: authRoleArn
-    #   DependsOn: IdentityPool
+    IdentityPool:
+      Type: AWS::Cognito::IdentityPool
+      Properties:
+        IdentityPoolName: ${env:APP_NAME}-identity-pool
+        CognitoIdentityProviders:
+          - ClientId:
+              Ref: UserPoolClient
+            ProviderName:
+              Fn::Sub:
+                - cognito-idp.${region}.amazonaws.com/${client}
+                - region:
+                    Ref: AWS::Region
+                  client:
+                    Ref: UserPool
+          - ClientId:
+              Ref: UserPoolClientWeb
+            ProviderName:
+              Fn::Sub:
+                - cognito-idp.${region}.amazonaws.com/${client}
+                - region:
+                    Ref: AWS::Region
+                  client:
+                    Ref: UserPool
+        AllowUnauthenticatedIdentities: 'true'
+      DependsOn: UserPoolClientInputs
+    IdentityPoolRoleMap:
+      Type: AWS::Cognito::IdentityPoolRoleAttachment
+      Properties:
+        IdentityPoolId:
+          Ref: IdentityPool
+        Roles:
+          unauthenticated:
+            Fn::GetAtt:
+              - AuthRole
+              - Arn
+          authenticated:
+            Fn::GetAtt:
+              - UnauthRole
+              - Arn
+      DependsOn: 
+        - IdentityPool
+        - AuthRole
+        - UnauthRole
