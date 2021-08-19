@@ -9,7 +9,7 @@ def handler(event, context):
     code_parameter = event["request"]["codeParameter"]
     email = event["request"]["userAttributes"]["email"]
     client_id = event["callerContext"]["clientId"]
-    url = f"{os.environ['APP_BASE_URL']}//accounts/validate?code={code_parameter}&email={email}&id={client_id}"
+    url = f"{os.environ['APP_BASE_URL']}/accounts/validate?code={code_parameter}&email={email}&id={client_id}"
     event["response"]["emailSubject"] = "Confirma tu cuenta"
     event["response"]["emailMessage"] = confirm_new_account_template(url)
 

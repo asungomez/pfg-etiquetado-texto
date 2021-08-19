@@ -288,3 +288,13 @@ resources:
         - IdentityPool
         - AuthRole
         - UnauthRole
+  Outputs:
+    UserPoolId:
+      Description: User Pool ID
+      Value: !Ref UserPool 
+    IdentityPoolId:
+      Description: Identity Pool ID
+      Value: !Ref IdentityPool
+    UserPoolClientWeb:
+      Description: User pool client for web application
+      Value: !Ref UserPoolClientWeb
