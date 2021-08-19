@@ -90,8 +90,8 @@ resources:
           - Name: email
             Required: 'true'
             Mutable: 'true'
-        LambdaConfig:
-          CustomMessage: ${self:custom.customMessageFunctionArn}
+        # LambdaConfig:
+        #   CustomMessage: ${self:custom.customMessageFunctionArn}
         AutoVerifiedAttributes: 
           - email
         EmailVerificationMessage: "Your verification code is {####}"
@@ -119,8 +119,7 @@ resources:
       Properties:
         Action: lambda:invokeFunction
         Principal: cognito-idp.amazonaws.com
-        FunctionName:
-          Ref: ${self:custom.customMessageFunctionName}
+        FunctionName: ${self:custom.customMessageFunctionName}
         SourceArn:
           Fn::GetAtt:
             - UserPool
