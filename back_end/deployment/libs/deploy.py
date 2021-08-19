@@ -2,6 +2,7 @@ import os
 import subprocess
 
 INFRA_DIR = f"{os.environ['REPO_DIR']}/back_end/infrastructure"
+LAMBDA_DIR = f"{os.environ['REPO_DIR']}/back_end/lambda"
 
 def deploy_amplify_app(app_name, github_token, github_repository, github_branch):
   environment = {
@@ -12,8 +13,9 @@ def deploy_amplify_app(app_name, github_token, github_repository, github_branch)
   }
 
   deploy(
-    f"{INFRA_DIR}/app.yml",
-    environment
+    INFRA_DIR,
+    environment,
+    template="app.yml"
   )
 
 def deploy_auth(app_name):
@@ -22,12 +24,23 @@ def deploy_auth(app_name):
   }
 
   deploy(
-    f"{INFRA_DIR}/auth.yml",
+    INFRA_DIR,
+    environment,
+    template="auth.yml"
+  )
+
+def deploy_custom_message(app_name):
+  environment = {
+    "APP_NAME": app_name
+  }
+
+  deploy(
+    f"{LAMBDA_DIR}/custom_message",
     environment
   )
 
 
-def deploy(template, env):
+def deploy(path, env, template="serverless.yml"):
 
     for name, value in env.items():
         os.environ[name] = value
@@ -46,7 +59,7 @@ def deploy(template, env):
     try:
         subprocess.check_call(
             call_args,
-            cwd=INFRA_DIR
+            cwd=path
         )
     except subprocess.CalledProcessError as e:
         print(

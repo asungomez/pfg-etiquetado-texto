@@ -2,7 +2,7 @@ import argparse
 
 from libs.repository import clone_repository
 import os
-from libs.deploy import deploy_amplify_app, deploy_auth
+from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message
 from libs.aws import create_deployment_bucket
 import logging
 
@@ -64,6 +64,7 @@ def run(args):
         args.github_repo,
         args.github_branch
     )
+    deploy_custom_message(args.app_name)
     deploy_auth(args.app_name)
 
 
