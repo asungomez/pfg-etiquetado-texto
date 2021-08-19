@@ -8,9 +8,6 @@ provider:
     name: ${env:APP_NAME}-deployment-bucket
   stackName: ${env:APP_NAME}-authentication
 
-custom:
-  sns-id: ${env:APP_NAME}-sts-id
-
 resources:
   Resources:
     AuthRole:
@@ -70,7 +67,7 @@ resources:
                 - sts:AssumeRole
               Condition:
                 StringEquals:
-                  sts:ExternalId: ${custom:sns-id}
+                  sts:ExternalId: ${env:APP_NAME}-sts-id
         Policies:
           - PolicyName: ${env:APP_NAME}-sns-policy
             PolicyDocument:
@@ -80,52 +77,37 @@ resources:
                   Action:
                     - sns:Publish
                   Resource: '*'
-    # UserPool:
-    #   Type: AWS::Cognito::UserPool
-    #   UpdateReplacePolicy: Retain
-    #   Properties:
-    #     UserPoolName:
-    #       Fn::If:
-    #         - ShouldNotCreateEnvResources
-    #         - Ref: userPoolName
-    #         - Fn::Join:
-    #             - ''
-    #             - - Ref: userPoolName
-    #               - '-'
-    #               - Ref: env
-    #     Schema:
-    #       - Name: email
-    #         Required: 'true'
-    #         Mutable: 'true'
-    #     LambdaConfig:
-    #       CustomMessage:
-    #         Ref: functiondemografiapfgee9e612fCustomMessageArn
-    #     AutoVerifiedAttributes:
-    #       Ref: autoVerifiedAttributes
-    #     EmailVerificationMessage:
-    #       Ref: emailVerificationMessage
-    #     EmailVerificationSubject:
-    #       Ref: emailVerificationSubject
-    #     Policies:
-    #       PasswordPolicy:
-    #         MinimumLength:
-    #           Ref: passwordPolicyMinLength
-    #         RequireLowercase: 'false'
-    #         RequireNumbers: 'false'
-    #         RequireSymbols: 'false'
-    #         RequireUppercase: 'false'
-    #     UsernameAttributes:
-    #       Ref: usernameAttributes
-    #     MfaConfiguration:
-    #       Ref: mfaConfiguration
-    #     SmsVerificationMessage:
-    #       Ref: smsVerificationMessage
-    #     SmsConfiguration:
-    #       SnsCallerArn:
-    #         Fn::GetAtt:
-    #           - SNSRole
-    #           - Arn
-    #       ExternalId: demogree9e612f_role_external_id
+    UserPool:
+      Type: AWS::Cognito::UserPool
+      UpdateReplacePolicy: Retain
+      Properties:
+        UserPoolName: ${env:APP_NAME}-user-pool
+        Schema:
+          - Name: email
+            Required: 'true'
+            Mutable: 'true'
+        # LambdaConfig:
+        #   CustomMessage:
+        #     Ref: functiondemografiapfgee9e612fCustomMessageArn
+        AutoVerifiedAttributes: email
+        EmailVerificationMessage: "Your verification code is {####}"
+        EmailVerificationSubject: "Your verification code"
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 12
+            RequireLowercase: 'true'
+            RequireNumbers: 'true'
+            RequireSymbols: 'true'
+            RequireUppercase: 'true'
+        UsernameAttributes: email
+        MfaConfiguration: "OFF"
+        SmsVerificationMessage: "Your verification code is {####}"
+        SmsConfiguration:
+          SnsCallerArn:
+            Fn::GetAtt:
+              - SNSRole
+              - Arn
+          ExternalId: ${env:APP_NAME}-sts-id
     # UserPoolCustomMessageLambdaInvokePermission:
     #   Type: AWS::Lambda::Permission
     #   DependsOn: UserPool
