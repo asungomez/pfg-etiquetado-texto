@@ -22,18 +22,18 @@ resources:
               Principal:
                 Federated: cognito-identity.amazonaws.com
               Action: 'sts:AssumeRoleWithWebIdentity'
-    # UnauthRole:
-    #   Type: 'AWS::IAM::Role'
-    #   Properties:
-    #     RoleName: !Ref UnauthRoleName
-    #     AssumeRolePolicyDocument:
-    #       Version: 2012-10-17
-    #       Statement:
-    #         - Sid: ''
-    #           Effect: Deny
-    #           Principal:
-    #             Federated: cognito-identity.amazonaws.com
-    #           Action: 'sts:AssumeRoleWithWebIdentity'
+    UnauthRole:
+      Type: 'AWS::IAM::Role'
+      Properties:
+        RoleName: ${env:APP_NAME}-unauth-role
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Sid: ''
+              Effect: Deny
+              Principal:
+                Federated: cognito-identity.amazonaws.com
+              Action: 'sts:AssumeRoleWithWebIdentity'
     # CustomMessageConfirmationBucket:
     #   Type: AWS::S3::Bucket
     #   Properties:
