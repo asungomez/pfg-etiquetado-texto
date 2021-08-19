@@ -9,7 +9,8 @@ provider:
   stackName: ${env:APP_NAME}-authentication
 
 custom:
-  customMessageFunctionArn: arn:aws:lambda:${region}:${account}:function:${env:APP_NAME}-custom-message
+  customMessageFunctionName: ${env:APP_NAME}-custom-message
+  customMessageFunctionArn: arn:aws:lambda:${region}:${account}:function:${self:custom.customMessageFunctionName}
 
 resources:
   Resources:
@@ -89,9 +90,8 @@ resources:
           - Name: email
             Required: 'true'
             Mutable: 'true'
-        # LambdaConfig:
-        #   CustomMessage:
-        #     Ref: functiondemografiapfgee9e612fCustomMessageArn
+        LambdaConfig:
+          CustomMessage: ${self:custom.customMessageFunctionArn}
         AutoVerifiedAttributes: 
           - email
         EmailVerificationMessage: "Your verification code is {####}"
@@ -113,18 +113,18 @@ resources:
               - SNSRole
               - Arn
           ExternalId: ${env:APP_NAME}-sts-id
-    # UserPoolCustomMessageLambdaInvokePermission:
-    #   Type: AWS::Lambda::Permission
-    #   DependsOn: UserPool
-    #   Properties:
-    #     Action: lambda:invokeFunction
-    #     Principal: cognito-idp.amazonaws.com
-    #     FunctionName:
-    #       Ref: functiondemografiapfgee9e612fCustomMessageName
-    #     SourceArn:
-    #       Fn::GetAtt:
-    #         - UserPool
-    #         - Arn
+    UserPoolCustomMessageLambdaInvokePermission:
+      Type: AWS::Lambda::Permission
+      DependsOn: UserPool
+      Properties:
+        Action: lambda:invokeFunction
+        Principal: cognito-idp.amazonaws.com
+        FunctionName:
+          Ref: ${self:custom.customMessageFunctionName}
+        SourceArn:
+          Fn::GetAtt:
+            - UserPool
+            - Arn
     UserPoolClientWeb:
       Type: AWS::Cognito::UserPoolClient
       Properties:
