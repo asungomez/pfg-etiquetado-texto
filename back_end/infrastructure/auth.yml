@@ -7,7 +7,6 @@ provider:
   deploymentBucket:
     name: ${env:APP_NAME}-deployment-bucket
   stackName: ${env:APP_NAME}-authentication
-  lambdaHashingVersion: "20201221"
 
 custom:
   customMessageFunctionName: ${env:APP_NAME}-custom-message

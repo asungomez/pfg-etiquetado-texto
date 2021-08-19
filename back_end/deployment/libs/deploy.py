@@ -40,7 +40,7 @@ def deploy_auth(app_name):
 def deploy_custom_message(app_name, domain_name):
   environment = {
     "APP_NAME": app_name,
-    "APP_BASE_URL": f"app.{domain_name}"
+    "APP_BASE_URL": f"https://app.{domain_name}"
   }
 
   deploy(
