@@ -189,60 +189,60 @@ resources:
             - UserPoolClientRole
             - Arn
       DependsOn: UserPoolClientRole
-    # UserPoolClientLambdaPolicy:
-    #   Type: AWS::IAM::Policy
-    #   Properties:
-    #     PolicyName: demogree9e612f_userpoolclient_lambda_iam_policy
-    #     Roles:
-    #       - Ref: UserPoolClientRole
-    #     PolicyDocument:
-    #       Version: '2012-10-17'
-    #       Statement:
-    #         - Effect: Allow
-    #           Action:
-    #             - cognito-idp:DescribeUserPoolClient
-    #           Resource:
-    #             Fn::GetAtt:
-    #               - UserPool
-    #               - Arn
-    #   DependsOn: UserPoolClientLambda
-    # UserPoolClientLogPolicy:
-    #   Type: AWS::IAM::Policy
-    #   Properties:
-    #     PolicyName: demogree9e612f_userpoolclient_lambda_log_policy
-    #     Roles:
-    #       - Ref: UserPoolClientRole
-    #     PolicyDocument:
-    #       Version: '2012-10-17'
-    #       Statement:
-    #         - Effect: Allow
-    #           Action:
-    #             - logs:CreateLogGroup
-    #             - logs:CreateLogStream
-    #             - logs:PutLogEvents
-    #           Resource:
-    #             Fn::Sub:
-    #               - >-
-    #                 arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*
-    #               - region:
-    #                   Ref: AWS::Region
-    #                 account:
-    #                   Ref: AWS::AccountId
-    #                 lambda:
-    #                   Ref: UserPoolClientLambda
-    #   DependsOn: UserPoolClientLambdaPolicy
-    # UserPoolClientInputs:
-    #   Type: Custom::LambdaCallout
-    #   Properties:
-    #     ServiceToken:
-    #       Fn::GetAtt:
-    #         - UserPoolClientLambda
-    #         - Arn
-    #     clientId:
-    #       Ref: UserPoolClient
-    #     userpoolId:
-    #       Ref: UserPool
-    #   DependsOn: UserPoolClientLogPolicy
+    UserPoolClientLambdaPolicy:
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: ${env:APP_NAME}-userpoolclient-lambda-iam-policy
+        Roles:
+          - Ref: UserPoolClientRole
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - cognito-idp:DescribeUserPoolClient
+              Resource:
+                Fn::GetAtt:
+                  - UserPool
+                  - Arn
+      DependsOn: UserPoolClientLambda
+    UserPoolClientLogPolicy:
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: ${env:APP_NAME}-userpoolclient-lambda-log-policy
+        Roles:
+          - Ref: UserPoolClientRole
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource:
+                Fn::Sub:
+                  - >-
+                    arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*
+                  - region:
+                      Ref: AWS::Region
+                    account:
+                      Ref: AWS::AccountId
+                    lambda:
+                      Ref: UserPoolClientLambda
+      DependsOn: UserPoolClientLambdaPolicy
+    UserPoolClientInputs:
+      Type: Custom::LambdaCallout
+      Properties:
+        ServiceToken:
+          Fn::GetAtt:
+            - UserPoolClientLambda
+            - Arn
+        clientId:
+          Ref: UserPoolClient
+        userpoolId:
+          Ref: UserPool
+      DependsOn: UserPoolClientLogPolicy
     # IdentityPool:
     #   Type: AWS::Cognito::IdentityPool
     #   Properties:
