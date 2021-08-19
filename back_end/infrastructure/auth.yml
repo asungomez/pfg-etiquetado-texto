@@ -89,7 +89,8 @@ resources:
         # LambdaConfig:
         #   CustomMessage:
         #     Ref: functiondemografiapfgee9e612fCustomMessageArn
-        AutoVerifiedAttributes: email
+        AutoVerifiedAttributes: 
+          - email
         EmailVerificationMessage: "Your verification code is {####}"
         EmailVerificationSubject: "Your verification code"
         Policies:
@@ -99,7 +100,8 @@ resources:
             RequireNumbers: 'true'
             RequireSymbols: 'true'
             RequireUppercase: 'true'
-        UsernameAttributes: email
+        UsernameAttributes: 
+          - email
         MfaConfiguration: "OFF"
         SmsVerificationMessage: "Your verification code is {####}"
         SmsConfiguration:
@@ -120,15 +122,14 @@ resources:
     #       Fn::GetAtt:
     #         - UserPool
     #         - Arn
-    # UserPoolClientWeb:
-    #   Type: AWS::Cognito::UserPoolClient
-    #   Properties:
-    #     ClientName: demogree9e612f_app_clientWeb
-    #     RefreshTokenValidity:
-    #       Ref: userpoolClientRefreshTokenValidity
-    #     UserPoolId:
-    #       Ref: UserPool
-    #   DependsOn: UserPool
+    UserPoolClientWeb:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: ${env:APP_NAME}-client-app
+        RefreshTokenValidity: 30
+        UserPoolId:
+          Ref: UserPool
+      DependsOn: UserPool
     # UserPoolClient:
     #   Type: AWS::Cognito::UserPoolClient
     #   Properties:
