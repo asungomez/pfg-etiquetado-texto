@@ -9,9 +9,12 @@ provider:
   stackName: ${env:APP_NAME}-authentication
   lambdaHashingVersion: "20201221"
 
+plugins:
+  - serverless-pseudo-parameters
+
 custom:
   customMessageFunctionName: ${env:APP_NAME}-custom-message
-  customMessageFunctionArn: arn:aws:lambda:${region}:${account}:function:${self:custom.customMessageFunctionName}
+  customMessageFunctionArn: arn:aws:lambda:${opt:region}:#{AWS::AccountId}:function:${self:custom.customMessageFunctionName}
 
 resources:
   Resources:
