@@ -5,9 +5,11 @@ import os
 from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message
 from libs.aws import aws_client_config, create_deployment_bucket
 import logging
+import json
 
 logging.basicConfig()
 logger = logging.getLogger("deployment")
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -65,8 +67,8 @@ def run(args):
     create_deployment_bucket(args.app_name)
     clone_repository(args.github_repo, args.github_token, args.github_branch)
     deploy_amplify_app(
-        args.app_name, 
-        args.github_token, 
+        args.app_name,
+        args.github_token,
         args.github_repo,
         args.github_branch,
         args.domain_name
@@ -74,7 +76,12 @@ def run(args):
     deploy_custom_message(args.app_name, args.domain_name)
     deploy_auth(args.app_name)
 
-    print(aws_client_config(args.app_name, args.aws_region))
+    print(json.dumps(
+        aws_client_config(args.app_name, args.aws_region),
+        sort_keys=True,
+        indent=4,
+        separators=(',', ': ')
+    ))
 
 
 def main():

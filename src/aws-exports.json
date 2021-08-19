@@ -1,8 +1,8 @@
 {
   "Auth": {
-    "identityPoolId": "us-east-2:0ccf32ea-9234-4b60-b08a-cd1772b9c09f",
-    "region": "us-east-2",
-    "userPoolId": "us-east-2_bmT9MgDSD",
-    "userPoolWebClientId": "1nqhim7b7okh1rne9ujn4puv5u"
+      "identityPoolId": "us-east-2:0ccf32ea-9234-4b60-b08a-cd1772b9c09f",
+      "region": "us-east-2",
+      "userPoolId": "us-east-2_bmT9MgDSD",
+      "userPoolWebClientId": "1nqhim7b7okh1rne9ujn4puv5u"
   }
 }
