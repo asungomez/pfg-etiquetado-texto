@@ -1,4 +1,13 @@
-import { createError, handleError } from '../utils/error_handlers';
+import { createError, handleError } from '../utils';
+
+const resendConfirmationMessage = (error: any) => {
+  if (error.response?.status === 429) {
+    return createError(
+      'Demasiados intentos, por favor prueba de nuevo en 2 horas'
+    );
+  }
+  return error;
+};
 
 const signUp = (error: any) => {
   if (
@@ -22,8 +31,12 @@ const signUp = (error: any) => {
 };
 
 const errorMethods = {
+  resendConfirmationMessage,
   signUp,
 };
 
-export const errorHandler = (type: string, error: any) =>
+const ERROR_TYPES = Object.keys(errorMethods);
+type ErrorType = typeof ERROR_TYPES[number];
+
+export const errorHandler = (type: ErrorType, error: any) =>
   handleError(error, type, errorMethods);

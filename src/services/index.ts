@@ -1,1 +1,2 @@
-export { AuthenticationService } from './authentication';
+export * from './authentication';
+export * from './utils';

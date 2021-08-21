@@ -1,5 +1,7 @@
 import { Auth } from 'aws-amplify';
 
+import { errorHandler } from './authentication_errors';
+
 export class AuthenticationService {
   public static async logIn(email: string, password: string): Promise<any> {
     return Promise.resolve({});
@@ -10,7 +12,12 @@ export class AuthenticationService {
   }
 
   public static async resendConfirmationMessage(email: string): Promise<void> {
-    return Promise.resolve();
+    try {
+      const response = await Auth.resendSignUp(email);
+      return Promise.resolve(response);
+    } catch (e) {
+      return Promise.reject(errorHandler('resendConfirmationMessage', e));
+    }
   }
 
   public static async signUp(email: string, password: string): Promise<any> {
@@ -18,20 +25,7 @@ export class AuthenticationService {
       const response = await Auth.signUp(email, password);
       return Promise.resolve(response);
     } catch (e) {
-      if (e.code === 'InvalidParameterException') {
-        if (e.message.includes('password')) {
-          e.message = 'La contraseña no es válida';
-        } else if (e.message.includes('email')) {
-          e.message = 'La dirección de email no es válida';
-        }
-      } else if (e.code === 'UsernameExistsException') {
-        e.message = 'La dirección de email ya se encuentra registrada';
-      } else if (e.code === 'NetworkError') {
-        e.message = 'No hay conexión a Internet';
-      } else {
-        e.message = 'Error interno';
-      }
-      return Promise.reject(e);
+      return Promise.reject(errorHandler('signUp', e));
     }
   }
 }

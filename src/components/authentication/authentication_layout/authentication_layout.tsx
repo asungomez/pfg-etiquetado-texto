@@ -57,7 +57,7 @@ export const AuthenticationLayout: React.FC<AuthenticationLayoutProps> = ({
                 />
                 <EuiSpacer size="m" />
                 <EuiTitle size="m">
-                  <h3>PFG Etiquetado de texto</h3>
+                  <h3 className="image-title">PFG Etiquetado de texto</h3>
                 </EuiTitle>
 
                 <EuiText color="subdued" size="xs" textAlign="center">

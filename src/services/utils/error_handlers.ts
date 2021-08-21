@@ -45,5 +45,3 @@ export const handleError = (
   }
   return error.handled ? error : commonErrors(error);
 };
-
-
