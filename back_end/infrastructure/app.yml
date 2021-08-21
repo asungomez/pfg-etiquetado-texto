@@ -99,6 +99,8 @@ resources:
             Value: 'false'
           - Name: _LIVE_UPDATES
             Value: '[{"pkg":"@aws-amplify/cli","type":"npm","version":"latest"}]'
+          - Name: REACT_APP_DEBUG
+            Value: 'false'
     AmplifyDomain:
       Type: 'AWS::Amplify::Domain'
       Properties:

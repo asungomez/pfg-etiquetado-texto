@@ -3,7 +3,7 @@ import React from 'react';
 
 import { usePasswordContext } from '../../contexts';
 
-export type PasswordCheckerProps = {
+type PasswordCheckerProps = {
   password: string;
 };
 

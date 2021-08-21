@@ -12,7 +12,7 @@ import React from 'react';
 import sideImage from '../../../assets/images/authentication_image.svg';
 import lockImage from '../../../assets/images/lock.svg';
 import { AuthenticationRouter } from '../../../routers';
-import { Footer } from './authentication_layout_footer';
+import { AuthenticationLayoutFooter } from './authentication_layout_footer';
 
 export type AuthenticationLayoutProps = {
   error?: boolean;
@@ -79,7 +79,7 @@ export const AuthenticationLayout: React.FC<AuthenticationLayoutProps> = ({
         </EuiFlexGroup>
       </EuiFlexItem>
       <EuiFlexItem className="landing-container-wrapper-footer">
-        <Footer />
+        <AuthenticationLayoutFooter />
       </EuiFlexItem>
     </EuiFlexGroup>
   </div>

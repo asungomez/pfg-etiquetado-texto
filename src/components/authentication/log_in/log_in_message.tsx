@@ -68,7 +68,7 @@ const messageDefinition: LogInMessageDefinition = {
   },
 };
 
-export type LogInMessageProps = {
+type LogInMessageProps = {
   type: LogInMessageType;
   email?: string;
 };

@@ -1,19 +1,13 @@
 import { EuiLink } from '@elastic/eui';
 import React from 'react';
 
-export const Footer: React.FC<{}> = () => (
+export const AuthenticationLayoutFooter: React.FC<{}> = () => (
   <>
     <EuiLink
-      href="https://github.com/asungomez/EstimacionDemograficaPFG"
+      href="https://github.com/asungomez/pfg-etiquetado-texto"
       target="_blank"
     >
       Github
-    </EuiLink>
-    <EuiLink
-      href="https://descargas.uned.es/publico/pdf/Politica_privacidad_UNED.pdf"
-      target="_blank"
-    >
-      Política de privacidad
     </EuiLink>
   </>
 );
