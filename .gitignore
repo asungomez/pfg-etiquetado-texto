@@ -20,6 +20,7 @@ deployment/repository
 .env.production.local
 .serverless
 __pycache__
+.idea
 
 npm-debug.log*
 yarn-debug.log*

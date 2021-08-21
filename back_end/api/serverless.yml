@@ -17,10 +17,11 @@ functions:
   api:
     name: ${env:APP_NAME}-api
     handler: wsgi_handler.handler
+    runtime: python3.8
 
 resources:
   extensions:
-    CustomMessageLambdaFunction:
+    ApiLambdaFunction:
       Properties:
         Environment:
           Variables:
