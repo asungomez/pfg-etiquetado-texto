@@ -45,7 +45,13 @@ resources:
                   - arn:aws:iam::${aws:accountId}:role/${env:APP_NAME}-unauth-role
               Action: execute-api:Invoke
               Resource: execute-api:/*/*/*
-        Body: ${{file(./openapi.yml)}}
+            - Sid: PublicMethods
+              Effect: Allow
+              Principal: "*"
+              Action: execute-api:Invoke
+              Resource:
+                - execute-api:/*/GET/accounts/_validate
+        Body: ${file(./openapi.yml)}
     ApiGatewayDeployment:
       Type: AWS::ApiGateway::Deployment
       Properties:
