@@ -39,9 +39,7 @@ def get_stack_outputs(stack_name):
     
     return outputs
         
-def aws_client_config(app_name, aws_region):
-    auth_outputs = get_stack_outputs(f"{app_name}-authentication")
-
+def aws_client_config(aws_region, auth_outputs):
     return {
         "Auth": {
             "identityPoolId": auth_outputs["IdentityPoolId"],

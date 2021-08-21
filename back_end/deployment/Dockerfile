@@ -20,7 +20,8 @@ RUN pip install -r requirements.txt
 RUN npm i -g serverless@2.53.1
 
 RUN \
-  npm install -g serverless-python-requirements@5.1.0
+  npm install -g serverless-python-requirements@5.1.0 && \
+  npm install -g serverless-wsgi@2.0.1
 
 COPY libs /deployment/libs
 COPY main.py /deployment/main.py

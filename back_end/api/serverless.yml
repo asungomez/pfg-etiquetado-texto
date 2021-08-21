@@ -1,0 +1,52 @@
+service: api
+
+plugins:
+  - serverless-python-requirements
+  - serverless-wsgi
+
+provider:
+  name: aws
+  profile: ${opt:aws-profile}
+  region: ${opt:region}
+  deploymentBucket:
+    name: ${env:APP_NAME}-deployment-bucket
+  stackName: ${env:APP_NAME}-api
+  lambdaHashingVersion: "20201221"
+
+functions:
+  api:
+    name: ${env:APP_NAME}-api
+    handler: wsgi_handler.handler
+
+resources:
+  extensions:
+    CustomMessageLambdaFunction:
+      Properties:
+        Environment:
+          Variables:
+            COGNITO_USER_POOL_CLIENT_ID: ${env:COGNITO_USER_POOL_CLIENT_ID}
+            COGNITO_USER_POOL: ${env:COGNITO_USER_POOL}
+  Resources:
+    ApiGatewayRestApi:
+      Type: "AWS::ApiGateway::RestApi"
+      Properties:
+        EndpointConfiguration:
+          Types:
+            - REGIONAL
+        Policy:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: AllowedRoles
+              Effect: Allow
+              Principal:
+                AWS: 
+                  - arn:aws:iam::${aws:accountId}:role/${env:APP_NAME}-auth-role
+                  - arn:aws:iam::${aws:accountId}:role/${env:APP_NAME}-unauth-role
+              Action: execute-api:Invoke
+              Resource: execute-api:/*/*/*
+        Body: ${{file(./openapi.yml)}}
+    ApiGatewayDeployment:
+      Type: AWS::ApiGateway::Deployment
+      Properties:
+        RestApiId:
+          Ref: ApiGatewayRestApi

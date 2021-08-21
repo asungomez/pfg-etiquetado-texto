@@ -3,6 +3,7 @@ import subprocess
 
 INFRA_DIR = f"{os.environ['REPO_DIR']}/back_end/infrastructure"
 LAMBDA_DIR = f"{os.environ['REPO_DIR']}/back_end/lambda"
+API_DIR = f"{os.environ['REPO_DIR']}/back_end/api"
 
 def deploy_amplify_app(
   app_name, 
@@ -25,6 +26,19 @@ def deploy_amplify_app(
     environment,
     template="app.yml"
   )
+
+def deploy_api(app_name, user_pool_id, user_pool_client):
+    environment = {
+        "APP_NAME": app_name,
+        "COGNITO_USER_POOL_CLIENT_ID": user_pool_client,
+        "COGNITO_USER_POOL": user_pool_id
+    }
+
+    deploy(
+        API_DIR,
+        environment
+    )
+
 
 def deploy_auth(app_name):
   environment = {

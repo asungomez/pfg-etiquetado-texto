@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  description: PFG Etiquetado de texto para UNED
+  title: Etiquetado de texto
+paths:
+  /accounts/_validate:
+    options:
+      description: Response to preflight requests
+      responses:
+        "200":
+          description: Response for preflight requests
+          headers:
+            Access-Control-Allow-Origin:
+              description: Allowed origins in CORS requests.
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              description: Allowed HTTP methods in CORS requests.
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              description: Allowed headers in CORS requests.
+              schema:
+                type: string
+      tags:
+        - Accounts
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'authorization,x-amz-date,x-amz-security-token,x-pfg-access-token,content-type'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        passthroughBehavior: "when_no_templates"
+        type: "mock"
+    get:
+      responses:
+        "302":
+          description: Redirect to frontend app after finishing to display the results
+          headers:
+            Location:
+              description: | 
+                Redirect destination URL. If the confirmation was successful,
+                it redirects to /login?message=confirmed. If not, it redirects
+                to /error, with an appropiate message query param:
+                - expired_code if the code expiration time passed
+                - invalid_email if the specified email doesn't exist or doesn't belong to the activation code 
+                - internal if there was some sort of internal server error
+              schema:
+                type: string
+                enum:
+                  - /login?message=confirmed
+                  - /error?message=expired_code
+                  - /error?message=invalid_email
+                  - /error?message=internal
+            Access-Control-Allow-Origin:
+              description: Allowed origins in CORS requests.
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              description: Allowed HTTP methods in CORS requests.
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              description: Allowed headers in CORS requests.
+              schema:
+                type: string
+      parameters:
+        - description: Account's email
+          required: true
+          name: email
+          example: "name@mail.com"
+          in: query
+          schema:
+            type: string
+        - description: Account's id
+          required: true
+          name: id
+          example: "klasdfASDFwer234"
+          in: query
+          schema:
+            type: string
+        - description: One-time temporary code for account activation
+          required: true
+          example: "sdfGSDfg23"
+          name: code
+          in: query
+          schema:
+            type: string
+      tags:
+        - Accounts
+      description: Destination of the confirmation's email link.
+      x-doc:
+        tag: Accounts - CRUD
+      summary: Confirmation email destination.
+      operationId: confirm
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Join:
+            - ""
+            - - "arn:aws:apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - ApiLambdaFunction
+                  - Arn
+              - :${stageVariables.SERVERLESS_ALIAS}
+              - /invocations
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy

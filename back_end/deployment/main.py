@@ -2,8 +2,8 @@ import argparse
 
 from libs.repository import clone_repository
 import os
-from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message
-from libs.aws import aws_client_config, create_deployment_bucket
+from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message, deploy_api
+from libs.aws import aws_client_config, create_deployment_bucket, get_stack_outputs
 import logging
 import json
 
@@ -76,8 +76,16 @@ def run(args):
     deploy_custom_message(args.app_name, args.domain_name)
     deploy_auth(args.app_name)
 
+    auth_outputs = get_stack_outputs(f"{args.app_name}-authentication")
+
+    deploy_api(
+        args.app_name,
+        auth_outputs["UserPoolId"],
+        auth_outputs["UserPoolClientWeb"]
+    )
+
     print(json.dumps(
-        aws_client_config(args.app_name, args.aws_region),
+        aws_client_config(args.aws_region, auth_outputs),
         sort_keys=True,
         indent=4,
         separators=(',', ': ')
