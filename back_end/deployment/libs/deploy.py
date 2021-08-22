@@ -8,16 +8,18 @@ API_DIR = f"{os.environ['REPO_DIR']}/back_end/api"
 
 def deploy_amplify_app(
   app_name, 
-  github_token, 
-  github_repository, 
-  github_branch
+  repo_config,
+  auth_config
   ):
 
   environment = {
     "APP_NAME": app_name,
-    "GH_TOKEN": github_token,
-    "GH_REPO": github_repository,
-    "GH_BRANCH": github_branch
+    "GH_TOKEN": repo_config["token"],
+    "GH_REPO": repo_config["url"],
+    "GH_BRANCH": repo_config["branch"],
+    "IDENTITY_POOL_ID": auth_config["IdentityPoolId"],
+    "USER_POOL_ID": auth_config["UserPoolId"],
+    "USER_POOL_CLIENT": auth_config["UserPoolClientWeb"]
   }
 
   deploy(

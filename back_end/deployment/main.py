@@ -32,19 +32,18 @@ def set_credentials(credentials):
     os.environ["AWS_PROFILE"] = credentials["aws_profile"]
     os.environ["REGION"] = credentials["aws_region"]
 
-def deploy(config, github_token):
+def deploy(config):
+    auth_outputs = deploy_auth(config["app"]["name"])
     app_outputs = deploy_amplify_app(
         config["app"]["name"],
-        github_token,
-        config["repository"]["url"],
-        config["repository"]["branch"]
+        config["repository"],
+        auth_outputs
     )
     deploy_custom_message(
         config["app"]["name"],
-        app_url(config["repository"]["branch"], app_outputs["AppId"])
+        app_url(app_outputs["AppId"], config["repository"]["branch"])
     )
-    # auth_outputs = deploy_auth(config["app"]["name"])
-    #
+
     # deploy_api(
     #     config["app"]["name"],
     #     auth_outputs["UserPoolId"],
@@ -64,7 +63,8 @@ def main():
     clone_repository(args.github_token, config["repository"])
     set_credentials(config["credentials"])
     create_deployment_bucket(config["app"]["name"])
-    deploy(config, args.github_token)
+    config["repository"]["token"] = args.github_token
+    deploy(config)
 
 
 if __name__ == "__main__":

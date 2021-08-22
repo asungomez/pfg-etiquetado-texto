@@ -2,10 +2,10 @@ import { Amplify } from 'aws-amplify';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import amplifyConfig from './aws-exports.json';
+import { awsConfig } from './aws_config';
 import { AppRouter } from './routers';
 
-Amplify.configure(amplifyConfig);
+Amplify.configure(awsConfig);
 
 const App: React.FC<{}> = () => {
   return (
