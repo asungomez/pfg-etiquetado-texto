@@ -108,7 +108,6 @@ paths:
               - Fn::GetAtt:
                   - ApiLambdaFunction
                   - Arn
-              - :${stageVariables.SERVERLESS_ALIAS}
               - /invocations
         passthroughBehavior: when_no_match
         httpMethod: POST
