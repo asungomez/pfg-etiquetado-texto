@@ -1,2 +1,3 @@
-gitpython
-boto3
+gitpython==3.1.20
+boto3==1.18.25
+pyyaml==5.4.1

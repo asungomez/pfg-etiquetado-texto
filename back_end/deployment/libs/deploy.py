@@ -1,5 +1,6 @@
 import os
 import subprocess
+from aws import get_stack_outputs
 
 INFRA_DIR = f"{os.environ['REPO_DIR']}/back_end/infrastructure"
 LAMBDA_DIR = f"{os.environ['REPO_DIR']}/back_end/lambda"
@@ -51,6 +52,10 @@ def deploy_auth(app_name):
     template="auth.yml"
   )
 
+  auth_outputs = get_stack_outputs(f"{config.app.name}-authentication")
+
+  return auth_outputs
+
 def deploy_custom_message(app_name, domain_name):
   environment = {
     "APP_NAME": app_name,
@@ -62,10 +67,11 @@ def deploy_custom_message(app_name, domain_name):
     environment
   )
 
-def deploy_domain(app_name, domain_name):
+def deploy_domain(app_name, domain_config):
   environment = {
     "APP_NAME": app_name,
-    "DOMAIN_NAME": domain_name
+    "DOMAIN_NAME": domain_config.name,
+    "HOSTED_ZONE_ID": domain_config.hosted_zone_id
   }
 
   deploy(

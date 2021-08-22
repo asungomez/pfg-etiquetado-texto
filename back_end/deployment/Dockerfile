@@ -23,5 +23,6 @@ RUN \
 
 COPY libs /deployment/libs
 COPY main.py /deployment/main.py
+COPY config.yml /deployment/config.yml
 
 ENTRYPOINT ["python3", "main.py"]

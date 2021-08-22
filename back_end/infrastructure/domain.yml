@@ -10,10 +10,6 @@ provider:
 
 resources:
   Resources:
-    DomainHostedZone:
-      Type: AWS::Route53::HostedZone
-      Properties: 
-        Name: ${env:DOMAIN_NAME}
     DomainCertificate:
       Type: AWS::CertificateManager::Certificate
       DependsOn: DomainHostedZone
@@ -21,7 +17,7 @@ resources:
         DomainName: "*.${env:DOMAIN_NAME}"
         DomainValidationOptions: 
           - DomainName: ${env:DOMAIN_NAME}
-            HostedZoneId: !Ref DomainHostedZone
+            HostedZoneId: ${env:HOSTED_ZONE_ID}
         ValidationMethod: DNS
     ApiDomain:
       Type: AWS::ApiGateway::DomainName

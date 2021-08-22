@@ -1,0 +1,11 @@
+credentials:
+  aws_profile: admin-personal
+  aws_region: us-east-2
+repository:
+  url: https://github.com/asungomez/pfg-etiquetado-texto.git
+  branch: master
+app:
+  name: pfg
+domain:
+  name: asunpersonal.com
+  hosted_zone_id: Z07079313TTH93T2DWSPB
