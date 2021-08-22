@@ -12,6 +12,19 @@ provider:
     name: ${env:APP_NAME}-deployment-bucket
   stackName: ${env:APP_NAME}-api
   lambdaHashingVersion: "20201221"
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - cognito-idp:ListUsersInGroup
+            - cognito-idp:ListUserPoolClients
+            - cognito-idp:ListUsers
+            - cognito-idp:AdminUpdateUserAttributes
+            - cognito-idp:AdminGetUser
+            - cognito-idp:AdminSetUserPassword
+            - cognito-idp:ListUserPools
+          Resource: "arn:aws:cognito-idp:${opt:region}:${aws:accountId}:userpool/${env:COGNITO_USER_POOL}"
 
 functions:
   api:
@@ -28,6 +41,18 @@ resources:
             COGNITO_USER_POOL_CLIENT_ID: ${env:COGNITO_USER_POOL_CLIENT_ID}
             COGNITO_USER_POOL: ${env:COGNITO_USER_POOL}
   Resources:
+    LambdaExecutionPolicy:
+      Type: "AWS::Lambda::Permission"
+      Properties: 
+        Action: lambda:InvokeFunction
+        FunctionName: ApiLambdaFunction.Arn
+        Principal: apigateway.amazonaws.com
+        SourceArn: 
+          !Join
+            - ''
+            - - "arn:aws:execute-api:${opt:region}:${aws:accountId}:"
+              - !Ref ApiGatewayRestApi
+              - "/*/*/*"
     ApiGatewayRestApi:
       Type: "AWS::ApiGateway::RestApi"
       Properties:
