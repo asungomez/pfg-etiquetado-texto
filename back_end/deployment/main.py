@@ -49,17 +49,17 @@ def deploy(config):
         api_url
     )
 
-    app_url = app_url(app_outputs["AppId"], config["repository"]["branch"])
+    app = app_url(app_outputs["AppId"], config["repository"]["branch"])
 
     deploy_api(
         config["app"]["name"],
         auth_outputs,
-        app_url=app_url
+        app_url=app
     )
 
     deploy_custom_message(
         config["app"]["name"],
-        app_url,
+        app,
         api_url
     )
 

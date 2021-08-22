@@ -3,7 +3,7 @@ FROM python:3.8
 RUN \
   apt-get update && \
   curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-  apt -yqq install nodejs && \
+  apt-get -yqq install nodejs && \
   pip install -U pip && pip install pipenv && \
   pip install --no-cache-dir awscli && \
   npm i -g npm@7.21.0 && \
