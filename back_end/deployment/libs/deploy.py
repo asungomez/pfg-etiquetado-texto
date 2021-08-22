@@ -62,6 +62,18 @@ def deploy_custom_message(app_name, domain_name):
     environment
   )
 
+def deploy_domain(app_name, domain_name):
+  environment = {
+    "APP_NAME": app_name,
+    "DOMAIN_NAME": domain_name
+  }
+
+  deploy(
+    INFRA_DIR,
+    environment,
+    template="domain.yml"
+  )
+
 
 def deploy(path, env, template="serverless.yml"):
 

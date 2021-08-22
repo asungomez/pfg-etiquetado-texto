@@ -1,0 +1,50 @@
+service: domain
+
+provider:
+  name: aws
+  profile: ${opt:aws-profile}
+  region: ${opt:region}
+  deploymentBucket:
+    name: ${env:APP_NAME}-deployment-bucket
+  stackName: ${env:APP_NAME}-domain
+
+resources:
+  Resources:
+    DomainHostedZone:
+      Type: AWS::Route53::HostedZone
+      Properties: 
+        Name: ${env:DOMAIN_NAME}
+    DomainCertificate:
+      Type: AWS::CertificateManager::Certificate
+      DependsOn: DomainHostedZone
+      Properties: 
+        DomainName: "*.${env:DOMAIN_NAME}"
+        DomainValidationOptions: 
+          - DomainName: ${env:DOMAIN_NAME}
+            HostedZoneId: !Ref DomainHostedZone
+        ValidationMethod: DNS
+    ApiDomain:
+      Type: AWS::ApiGateway::DomainName
+      DependsOn: DomainCertificate
+      Properties:
+        DomainName: api.${env:DOMAIN_NAME}
+        CertificateArn: !Ref DomainCertificate
+        EndpointConfiguration:
+          Types:
+            - EDGE
+        SecurityPolicy: TLS_1_2
+    ApiDomainRecordSet:
+      Type: AWS::Route53::RecordSet
+      DependsOn: ApiDomain
+      Properties:
+        Name: api.${env:DOMAIN_NAME}
+        Type: A
+        AliasTarget:
+          DNSName: !GetAtt
+            - ApiDomain
+            - DistributionDomainName
+          EvaluateTargetHealth: True
+          HostedZoneId: !GetAtt
+            - ApiDomain
+            - DistributionHostedZoneId
+        HostedZoneName: ${env:DOMAIN_NAME}

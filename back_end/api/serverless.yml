@@ -57,22 +57,9 @@ resources:
       Properties:
         RestApiId:
           Ref: ApiGatewayRestApi
-    ApiDomain:
-      Type: AWS::ApiGateway::DomainName
-      Properties:
+    APIMapping:
+      Type: AWS::ApiGateway::BasePathMapping
+      Properties: 
         DomainName: api.${env:DOMAIN_NAME}
-    ApiRecordSet:
-      Type: AWS::Route53::RecordSet
-      DependsOn: ApiDomain
-      Properties:
-        Name: api.${env:DOMAIN_NAME}
-        Type: A
-        AliasTarget:
-          DNSName: !GetAtt
-            - ApiDomain
-            - DistributionDomainName
-          EvaluateTargetHealth: True
-          HostedZoneId: !GetAtt
-            - ApiDomain
-            - DistributionHostedZoneId
-        HostedZoneName: ${env:DOMAIN_NAME}
+        RestApiId: !Ref ApiGatewayRestApi
+        Stage: dev
