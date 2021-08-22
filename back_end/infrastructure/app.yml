@@ -101,8 +101,8 @@ resources:
             Value: '[{"pkg":"@aws-amplify/cli","type":"npm","version":"latest"}]'
           - Name: REACT_APP_DEBUG
             Value: 'false'
-    Outputs:
-      AppId:
-        Description: Amplify App ID
-        Value: !GetAtt AmplifyApp.Arn
+  Outputs:
+    AppId:
+      Description: Amplify App ID
+      Value: !GetAtt AmplifyApp.Arn
 
