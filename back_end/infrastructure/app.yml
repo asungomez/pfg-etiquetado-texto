@@ -103,6 +103,8 @@ resources:
             Value: ${env:USER_POOL_ID}
           - Name: REACT_APP_USER_POOL_CLIENT
             Value: ${env:USER_POOL_CLIENT}
+          - Name: REACT_APP_API_URL
+            Value: ${env:API_URL}
   Outputs:
     AppId:
       Description: Amplify App ID

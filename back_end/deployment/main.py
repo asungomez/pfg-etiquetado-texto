@@ -3,7 +3,7 @@ import argparse
 from libs.repository import clone_repository
 import os
 from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message, deploy_api
-from libs.aws import create_deployment_bucket, app_url
+from libs.aws import create_deployment_bucket, app_url, api_endpoint
 from libs.utils import local_env_file
 import logging
 import json
@@ -40,21 +40,25 @@ def deploy(config):
         config["app"]["name"],
         auth_outputs
     )
+    api_url = api_endpoint(api_outputs["ApiId"], config["credentials"]["aws_region"])
 
     app_outputs = deploy_amplify_app(
         config["app"]["name"],
         config["repository"],
-        auth_outputs
+        auth_outputs,
+        api_url
     )
 
     deploy_custom_message(
         config["app"]["name"],
-        app_url(app_outputs["AppId"], config["repository"]["branch"])
+        app_url(app_outputs["AppId"], config["repository"]["branch"]),
+        api_url
     )
 
+    print()
     print("Para lanzar la aplicación localmente, crea el fichero .env en el directorio raíz con "
           "el siguiente contenido:")
-    print(local_env_file(config["credentials"]["aws_region"], auth_outputs)
+    print(local_env_file(config["credentials"]["aws_region"], auth_outputs))
 
 def main():
     args = parse_args()

@@ -26,3 +26,4 @@ resources:
         Environment:
           Variables:
             APP_BASE_URL: ${env:APP_BASE_URL}
+            API_BASE_URL: ${env:API_BASE_URL}

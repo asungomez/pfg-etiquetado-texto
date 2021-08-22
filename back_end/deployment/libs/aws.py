@@ -41,3 +41,6 @@ def get_stack_outputs(stack_name):
 
 def app_url(app_id, branch):
     return f"https://{branch}.{app_id}.amplifyapp.com"
+
+def api_endpoint(api_id, aws_region):
+    return f"https://{api_id}.execute-api.{aws_region}.amazonaws.com/api"

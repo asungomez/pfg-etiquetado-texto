@@ -9,7 +9,8 @@ API_DIR = f"{os.environ['REPO_DIR']}/back_end/api"
 def deploy_amplify_app(
   app_name, 
   repo_config,
-  auth_config
+  auth_config,
+  api_url
   ):
 
   environment = {
@@ -19,7 +20,8 @@ def deploy_amplify_app(
     "GH_BRANCH": repo_config["branch"],
     "IDENTITY_POOL_ID": auth_config["IdentityPoolId"],
     "USER_POOL_ID": auth_config["UserPoolId"],
-    "USER_POOL_CLIENT": auth_config["UserPoolClientWeb"]
+    "USER_POOL_CLIENT": auth_config["UserPoolClientWeb"],
+    "API_URL": api_url
   }
 
   deploy(
@@ -64,10 +66,11 @@ def deploy_auth(app_name):
 
   return auth_outputs
 
-def deploy_custom_message(app_name, app_url):
+def deploy_custom_message(app_name, app_url, api_url):
   environment = {
     "APP_NAME": app_name,
-    "APP_BASE_URL": app_url
+    "APP_BASE_URL": app_url,
+    "API_BASE_URL": api_url
   }
 
   deploy(
