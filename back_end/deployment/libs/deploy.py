@@ -26,6 +26,10 @@ def deploy_amplify_app(
     template="app.yml"
   )
 
+  app_outputs = get_stack_outputs(f"{app_name}-amplify-app")
+
+  return app_outputs
+
 def deploy_api(app_name, user_pool_id, user_pool_client):
     environment = {
         "APP_NAME": app_name,
@@ -50,7 +54,7 @@ def deploy_auth(app_name):
     template="auth.yml"
   )
 
-  auth_outputs = get_stack_outputs(f"{config.app.name}-authentication")
+  auth_outputs = get_stack_outputs(f"{app_name}-authentication")
 
   return auth_outputs
 
