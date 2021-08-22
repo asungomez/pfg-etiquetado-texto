@@ -36,7 +36,7 @@ def set_credentials(credentials):
 def deploy(config, github_token):
     deploy_domain(
         config["app"]["name"],
-        config["domain"]
+        config["app"]["domain"]
     )
 
     deploy_amplify_app(
@@ -44,9 +44,9 @@ def deploy(config, github_token):
         github_token,
         config["repository"]["url"],
         config["repository"]["branch"],
-        config["domain"]["name"]
+        config["app"]["domain"]
     )
-    deploy_custom_message(config["app"]["name"], config["domain"]["name"])
+    deploy_custom_message(config["app"]["name"], config["app"]["domain"])
     auth_outputs = deploy_auth(config["app"]["name"])
 
     deploy_api(

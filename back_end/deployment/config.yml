@@ -6,6 +6,4 @@ repository:
   branch: master
 app:
   name: pfg
-domain:
-  name: asunpersonal.com
-  hosted_zone_id: Z07079313TTH93T2DWSPB
+  domain: etiquetado-textp-pfg.com

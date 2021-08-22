@@ -67,11 +67,10 @@ def deploy_custom_message(app_name, domain_name):
     environment
   )
 
-def deploy_domain(app_name, domain_config):
+def deploy_domain(app_name, domain_name):
   environment = {
     "APP_NAME": app_name,
-    "DOMAIN_NAME": domain_config["name"],
-    "HOSTED_ZONE_ID": domain_config["hosted_zone_id"]
+    "DOMAIN_NAME": domain_name
   }
 
   deploy(
