@@ -38,16 +38,6 @@ def get_stack_outputs(stack_name):
                    for output in stack_info["Outputs"]}
     
     return outputs
-        
-def aws_client_config(aws_region, auth_outputs):
-    return {
-        "Auth": {
-            "identityPoolId": auth_outputs["IdentityPoolId"],
-            "region": aws_region,
-            "userPoolId": auth_outputs["UserPoolId"],
-            "userPoolWebClientId": auth_outputs["UserPoolClientWeb"]
-        }
-    }
 
 def app_url(app_id, branch):
-    return f"{branch}.{app_id}.amplifyapp.com"
+    return f"https://{branch}.{app_id}.amplifyapp.com"

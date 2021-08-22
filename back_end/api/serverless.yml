@@ -63,3 +63,7 @@ resources:
         DomainName: api.${env:DOMAIN_NAME}
         RestApiId: !Ref ApiGatewayRestApi
         Stage: dev
+  Outputs:
+    ApiId:
+      Description: REST API's ID
+      Value: !Ref ApiGatewayRestApi

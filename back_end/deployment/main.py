@@ -3,7 +3,8 @@ import argparse
 from libs.repository import clone_repository
 import os
 from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message, deploy_api
-from libs.aws import aws_client_config, create_deployment_bucket, app_url
+from libs.aws import create_deployment_bucket, app_url
+from libs.utils import local_env_file
 import logging
 import json
 import yaml
@@ -34,6 +35,12 @@ def set_credentials(credentials):
 
 def deploy(config):
     auth_outputs = deploy_auth(config["app"]["name"])
+
+    api_outputs = deploy_api(
+        config["app"]["name"],
+        auth_outputs
+    )
+
     app_outputs = deploy_amplify_app(
         config["app"]["name"],
         config["repository"],
@@ -44,18 +51,9 @@ def deploy(config):
         app_url(app_outputs["AppId"], config["repository"]["branch"])
     )
 
-    # deploy_api(
-    #     config["app"]["name"],
-    #     auth_outputs["UserPoolId"],
-    #     auth_outputs["UserPoolClientWeb"]
-    # )
-    #
-    # print(json.dumps(
-    #     aws_client_config(credentials.aws_region, auth_outputs),
-    #     sort_keys=True,
-    #     indent=4,
-    #     separators=(',', ': ')
-    # ))
+    print("Para lanzar la aplicación localmente, crea el fichero .env en el directorio raíz con "
+          "el siguiente contenido:")
+    print(local_env_file(config["credentials"]["aws_region"]), auth_outputs)
 
 def main():
     args = parse_args()

@@ -32,17 +32,21 @@ def deploy_amplify_app(
 
   return app_outputs
 
-def deploy_api(app_name, user_pool_id, user_pool_client):
+def deploy_api(app_name, auth_config):
     environment = {
         "APP_NAME": app_name,
-        "COGNITO_USER_POOL_CLIENT_ID": user_pool_client,
-        "COGNITO_USER_POOL": user_pool_id
+        "COGNITO_USER_POOL_CLIENT_ID": auth_config["UserPoolClientWeb"],
+        "COGNITO_USER_POOL": auth_config["UserPoolId"]
     }
 
     deploy(
         API_DIR,
         environment
     )
+
+    api_outputs = get_stack_outputs(f"{app_name}-api")
+
+    return api_outputs
 
 
 def deploy_auth(app_name):
