@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from resources.utils import account_verification, error_handling
 
 accounts_endpoint = Blueprint("accounts", __name__)
@@ -9,3 +9,4 @@ accounts_endpoint = Blueprint("accounts", __name__)
 @account_verification
 def validate_account():
     print("Holi")
+    return jsonify({})
