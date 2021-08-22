@@ -4,6 +4,10 @@ plugins:
   - serverless-python-requirements
   - serverless-wsgi
 
+custom:
+  wsgi:
+    app: api.app
+
 provider:
   name: aws
   profile: ${opt:aws-profile}
