@@ -34,33 +34,27 @@ def set_credentials(credentials):
     os.environ["REGION"] = credentials["aws_region"]
 
 def deploy(config, github_token):
-    deploy_domain(
-        config["app"]["name"],
-        config["app"]["domain"]
-    )
-
     deploy_amplify_app(
         config["app"]["name"],
         github_token,
         config["repository"]["url"],
-        config["repository"]["branch"],
-        config["app"]["domain"]
+        config["repository"]["branch"]
     )
-    deploy_custom_message(config["app"]["name"], config["app"]["domain"])
-    auth_outputs = deploy_auth(config["app"]["name"])
-
-    deploy_api(
-        config["app"]["name"],
-        auth_outputs["UserPoolId"],
-        auth_outputs["UserPoolClientWeb"]
-    )
-
-    print(json.dumps(
-        aws_client_config(credentials.aws_region, auth_outputs),
-        sort_keys=True,
-        indent=4,
-        separators=(',', ': ')
-    ))
+    # deploy_custom_message(config["app"]["name"], config["app"]["domain"])
+    # auth_outputs = deploy_auth(config["app"]["name"])
+    #
+    # deploy_api(
+    #     config["app"]["name"],
+    #     auth_outputs["UserPoolId"],
+    #     auth_outputs["UserPoolClientWeb"]
+    # )
+    #
+    # print(json.dumps(
+    #     aws_client_config(credentials.aws_region, auth_outputs),
+    #     sort_keys=True,
+    #     indent=4,
+    #     separators=(',', ': ')
+    # ))
 
 def main():
     args = parse_args()

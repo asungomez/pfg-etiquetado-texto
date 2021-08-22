@@ -10,16 +10,14 @@ def deploy_amplify_app(
   app_name, 
   github_token, 
   github_repository, 
-  github_branch,
-  domain_name
+  github_branch
   ):
 
   environment = {
     "APP_NAME": app_name,
     "GH_TOKEN": github_token,
     "GH_REPO": github_repository,
-    "GH_BRANCH": github_branch,
-    "DOMAIN_NAME": domain_name
+    "GH_BRANCH": github_branch
   }
 
   deploy(
@@ -65,18 +63,6 @@ def deploy_custom_message(app_name, domain_name):
   deploy(
     f"{LAMBDA_DIR}/custom_message",
     environment
-  )
-
-def deploy_domain(app_name, domain_name):
-  environment = {
-    "APP_NAME": app_name,
-    "DOMAIN_NAME": domain_name
-  }
-
-  deploy(
-    INFRA_DIR,
-    environment,
-    template="domain.yml"
   )
 
 

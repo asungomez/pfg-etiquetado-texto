@@ -101,12 +101,4 @@ resources:
             Value: '[{"pkg":"@aws-amplify/cli","type":"npm","version":"latest"}]'
           - Name: REACT_APP_DEBUG
             Value: 'false'
-    AmplifyDomain:
-      Type: 'AWS::Amplify::Domain'
-      Properties:
-        AppId: !GetAtt AmplifyApp.AppId
-        DomainName: ${env:DOMAIN_NAME}
-        SubDomainSettings:
-          - BranchName: ${env:GH_BRANCH}
-            Prefix: app
 
