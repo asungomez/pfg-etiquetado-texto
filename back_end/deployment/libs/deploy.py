@@ -34,11 +34,12 @@ def deploy_amplify_app(
 
   return app_outputs
 
-def deploy_api(app_name, auth_config):
+def deploy_api(app_name, auth_config, app_url = "still not existent!"):
     environment = {
         "APP_NAME": app_name,
         "COGNITO_USER_POOL_CLIENT_ID": auth_config["UserPoolClientWeb"],
-        "COGNITO_USER_POOL": auth_config["UserPoolId"]
+        "COGNITO_USER_POOL": auth_config["UserPoolId"],
+        "APP_URL": app_url
     }
 
     deploy(

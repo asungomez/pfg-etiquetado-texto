@@ -8,9 +8,8 @@ def handler(event, context):
   if event_type in ["CustomMessage_SignUp", "CustomMessage_ResendCode"]:
     code_parameter = event["request"]["codeParameter"]
     email = event["request"]["userAttributes"]["email"]
-    client_id = event["callerContext"]["clientId"]
     url = f"{os.environ['API_BASE_URL']}/accounts/_validate?code={code_parameter}&email" \
-          f"={email}&id={client_id}"
+          f"={email}"
     event["response"]["emailSubject"] = "Confirma tu cuenta"
     event["response"]["emailMessage"] = confirm_new_account_template(url)
 

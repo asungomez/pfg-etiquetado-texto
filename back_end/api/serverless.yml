@@ -44,6 +44,7 @@ resources:
           Variables:
             COGNITO_USER_POOL_CLIENT_ID: ${env:COGNITO_USER_POOL_CLIENT_ID}
             COGNITO_USER_POOL: ${env:COGNITO_USER_POOL}
+            APP_URL: ${env:APP_URL}
   Resources:
     LambdaExecutionPolicy:
       Type: "AWS::Lambda::Permission"

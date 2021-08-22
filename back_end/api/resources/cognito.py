@@ -12,12 +12,16 @@ config = Config(connect_timeout=10, read_timeout=5, retries={"max_attempts": 10}
 
 def get_user_from_token(token):
     client = boto3.client("cognito-idp", config=config)
+    user = client.get_user(
+        AccessToken=token
+    )
+    return user
 
-    try:
-        user = client.get_user(
-            AccessToken=token
-        )
-
-        return user
-    except Exception as e:
-        raise e
+def confirm_sign_up(username, code):
+    client = boto3.client("cognito-idp", config=config)
+    user = client.confirm_sign_up(
+        ClientId=cognito_user_pool_client_id,
+        Username=username,
+        ConfirmationCode=code
+    )
+    return user
