@@ -6,7 +6,6 @@ accounts_endpoint = Blueprint("accounts", __name__)
 
 @accounts_endpoint.route("/accounts/_validate", methods=["GET"])
 @error_handling
-@account_verification
 def validate_account():
     print("Holi")
     return jsonify({})
