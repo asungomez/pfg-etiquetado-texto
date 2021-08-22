@@ -57,3 +57,22 @@ resources:
       Properties:
         RestApiId:
           Ref: ApiGatewayRestApi
+    ApiDomain:
+      Type: AWS::ApiGateway::DomainName
+      Properties:
+        DomainName: api.${env:DOMAIN_NAME}
+    ApiRecordSet:
+      Type: AWS::Route53::RecordSet
+      DependsOn: ApiDomain
+      Properties:
+        Name: api.${env:DOMAIN_NAME}
+        Type: A
+        AliasTarget:
+          DNSName: !GetAtt
+            - ApiDomain
+            - DistributionDomainName
+          EvaluateTargetHealth: True
+          HostedZoneId: !GetAtt
+            - ApiDomain
+            - DistributionHostedZoneId
+        HostedZoneName: ${env:DOMAIN_NAME}
