@@ -12,7 +12,6 @@ resources:
   Resources:
     DomainCertificate:
       Type: AWS::CertificateManager::Certificate
-      DependsOn: DomainHostedZone
       Properties: 
         DomainName: "*.${env:DOMAIN_NAME}"
         DomainValidationOptions: 

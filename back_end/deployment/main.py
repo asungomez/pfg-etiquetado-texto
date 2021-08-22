@@ -30,8 +30,8 @@ def read_config():
     return yaml.load(open('config.yml'), Loader=yaml.FullLoader)
 
 def set_credentials(credentials):
-    os.environ['AWS_PROFILE'] = credentials.aws_profile
-    os.environ['REGION'] = credentials.aws_region
+    os.environ["AWS_PROFILE"] = credentials["aws_profile"]
+    os.environ["REGION"] = credentials["aws_region"]
 
 def deploy(config, github_token):
     deploy_domain(
@@ -66,6 +66,7 @@ def main():
     args = parse_args()
     config = read_config()
     clone_repository(args.github_token, config["repository"])
+    set_credentials(config["credentials"])
     create_deployment_bucket(config["app"]["name"])
     deploy(config, args.github_token)
 
