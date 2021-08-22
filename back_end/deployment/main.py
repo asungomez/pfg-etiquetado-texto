@@ -2,7 +2,8 @@ import argparse
 
 from libs.repository import clone_repository
 import os
-from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message, deploy_api
+from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message, deploy_api, \
+    deploy_domain
 from libs.aws import aws_client_config, create_deployment_bucket, get_stack_outputs
 import logging
 import json
@@ -66,6 +67,10 @@ def run(args):
     os.environ['REGION'] = args.aws_region
     create_deployment_bucket(args.app_name)
     clone_repository(args.github_repo, args.github_token, args.github_branch)
+    deploy_domain(
+        args.app_name,
+        args.domain_name
+    )
     deploy_amplify_app(
         args.app_name,
         args.github_token,
