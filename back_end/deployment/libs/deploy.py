@@ -1,6 +1,6 @@
 import os
 import subprocess
-from aws import get_stack_outputs
+from libs.aws import get_stack_outputs
 
 INFRA_DIR = f"{os.environ['REPO_DIR']}/back_end/infrastructure"
 LAMBDA_DIR = f"{os.environ['REPO_DIR']}/back_end/lambda"

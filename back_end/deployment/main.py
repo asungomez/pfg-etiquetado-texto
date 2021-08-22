@@ -1,6 +1,6 @@
 import argparse
 
-from libs.repository import clone_repository
+from libs["repository"] import clone_repository
 import os
 from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message, deploy_api, \
     deploy_domain
@@ -27,7 +27,7 @@ def parse_args():
     return arguments
 
 def read_config():
-    return yaml.load(open('config.yml'))
+    return yaml.load(open('config.yml'), Loader=yaml.FullLoader)
 
 def set_credentials(credentials):
     os.environ['AWS_PROFILE'] = credentials.aws_profile
@@ -35,22 +35,22 @@ def set_credentials(credentials):
 
 def deploy(config, github_token):
     deploy_domain(
-        config.app.name,
-        config.domain
+        config["app"]["name"],
+        config["domain"]
     )
 
     deploy_amplify_app(
-        config.app.name,
+        config["app"]["name"],
         github_token,
-        config.repository.url,
-        config.repository.branch,
-        config.domain.name
+        config["repository"]["url"],
+        config["repository"]["branch"],
+        config["domain"]["name"]
     )
-    deploy_custom_message(config.app.name, config.domain.name)
-    auth_outputs = deploy_auth(config.app.name)
+    deploy_custom_message(config["app"]["name"], config["domain"]["name"])
+    auth_outputs = deploy_auth(config["app"]["name"])
 
     deploy_api(
-        config.app.name,
+        config["app"]["name"],
         auth_outputs["UserPoolId"],
         auth_outputs["UserPoolClientWeb"]
     )
@@ -62,16 +62,12 @@ def deploy(config, github_token):
         separators=(',', ': ')
     ))
 
-def run(args):
-    config = read_config()
-    clone_repository(config.repository.url, args.github_token, config.repository.branch)
-    create_deployment_bucket(args.app_name)
-    deploy(config, args.github_token)
-
-
 def main():
     args = parse_args()
-    run(args)
+    config = read_config()
+    clone_repository(args.github_token, config["repository"])
+    create_deployment_bucket(config["app"]["name"])
+    deploy(config, args.github_token)
 
 
 if __name__ == "__main__":
