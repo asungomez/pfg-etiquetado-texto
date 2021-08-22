@@ -48,3 +48,6 @@ def aws_client_config(aws_region, auth_outputs):
             "userPoolWebClientId": auth_outputs["UserPoolClientWeb"]
         }
     }
+
+def app_url(app_id, branch):
+    return f"{branch}.{app_id}.amplifyapp.com"

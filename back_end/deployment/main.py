@@ -3,7 +3,7 @@ import argparse
 from libs.repository import clone_repository
 import os
 from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message, deploy_api
-from libs.aws import aws_client_config, create_deployment_bucket
+from libs.aws import aws_client_config, create_deployment_bucket, app_url
 import logging
 import json
 import yaml
@@ -39,7 +39,10 @@ def deploy(config, github_token):
         config["repository"]["url"],
         config["repository"]["branch"]
     )
-    # deploy_custom_message(config["app"]["name"], config["app"]["domain"])
+    deploy_custom_message(
+        config["app"]["name"],
+        app_url(config["repository"]["branch"], app_outputs["AppId"])
+    )
     # auth_outputs = deploy_auth(config["app"]["name"])
     #
     # deploy_api(

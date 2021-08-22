@@ -58,10 +58,10 @@ def deploy_auth(app_name):
 
   return auth_outputs
 
-def deploy_custom_message(app_name, domain_name):
+def deploy_custom_message(app_name, app_url):
   environment = {
     "APP_NAME": app_name,
-    "APP_BASE_URL": f"https://app.{domain_name}"
+    "APP_BASE_URL": app_url
   }
 
   deploy(
