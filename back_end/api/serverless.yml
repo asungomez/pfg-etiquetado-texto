@@ -45,7 +45,7 @@ resources:
       Type: "AWS::Lambda::Permission"
       Properties: 
         Action: lambda:InvokeFunction
-        FunctionName: ApiLambdaFunction.Arn
+        FunctionName: !GetAtt ApiLambdaFunction.Arn
         Principal: apigateway.amazonaws.com
         SourceArn: 
           !Join
