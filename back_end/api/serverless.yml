@@ -57,12 +57,6 @@ resources:
       Properties:
         RestApiId:
           Ref: ApiGatewayRestApi
-    APIMapping:
-      Type: AWS::ApiGateway::BasePathMapping
-      Properties: 
-        DomainName: api.${env:DOMAIN_NAME}
-        RestApiId: !Ref ApiGatewayRestApi
-        Stage: dev
   Outputs:
     ApiId:
       Description: REST API's ID
