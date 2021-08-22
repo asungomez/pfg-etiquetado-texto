@@ -52,6 +52,13 @@ resources:
               Resource:
                 - execute-api:/*/GET/accounts/_validate
         Body: ${file(./openapi.yml)}
+    ApiGatewayStage:
+      Type: AWS::ApiGateway::Stage
+      Properties:
+        DeploymentId: !Ref ApiGatewayDeployment
+        Description: Production stage
+        RestApiId: !Ref ApiGatewayRestApi
+        StageName: api
     ApiGatewayDeployment:
       Type: AWS::ApiGateway::Deployment
       Properties:
