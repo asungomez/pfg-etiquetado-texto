@@ -104,5 +104,5 @@ resources:
   Outputs:
     AppId:
       Description: Amplify App ID
-      Value: !GetAtt AmplifyApp.Arn
+      Value: !GetAtt AmplifyApp.AppId
 
