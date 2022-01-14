@@ -31,7 +31,7 @@ resources:
   Resources:
     UserPoolCustomMessageLambdaInvokePermission:
       Type: AWS::Lambda::Permission
-      DependsOn: CustomMessageFunction
+      DependsOn: CustomMessageLambdaFunction
       Properties:
         Action: lambda:invokeFunction
         Principal: cognito-idp.amazonaws.com
