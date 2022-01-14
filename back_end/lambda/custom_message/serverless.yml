@@ -36,5 +36,5 @@ resources:
       Properties:
         Action: lambda:invokeFunction
         Principal: cognito-idp.amazonaws.com
-        FunctionName: ${custom:functionName}
-        SourceArn: ${custom:userPoolArn}
+        FunctionName: ${self:custom:functionName}
+        SourceArn: ${self:custom:userPoolArn}
