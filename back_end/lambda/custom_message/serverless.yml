@@ -13,13 +13,9 @@ provider:
   stackName: ${env:APP_NAME}-custom-message
   lambdaHashingVersion: "20201221"
 
-custom:
-  functionName: ${env:APP_NAME}-custom-message
-  userPoolArn: arn:aws:cognito-idp:${opt:region}:${aws:accountId}:userpool/${env:USER_POOL_ID}
-
 functions:
   customMessage:
-    name: ${self:custom:functionName}
+    name: ${env:APP_NAME}-custom-message
     runtime: python3.8
     timeout: 300
     handler: custom_message.handler
@@ -37,5 +33,5 @@ resources:
       Properties:
         Action: lambda:invokeFunction
         Principal: cognito-idp.amazonaws.com
-        FunctionName: ${self:custom:functionName}
-        SourceArn: ${self:custom:userPoolArn}
+        FunctionName: ${env:APP_NAME}-custom-message
+        SourceArn: arn:aws:cognito-idp:${opt:region}:${aws:accountId}:userpool/${env:USER_POOL_ID}
