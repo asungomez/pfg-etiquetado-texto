@@ -28,7 +28,7 @@ resources:
           Variables:
             APP_BASE_URL: ${env:APP_BASE_URL}
             API_BASE_URL: ${env:API_BASE_URL}
-  resources:
+  Resources:
     UserPoolCustomMessageLambdaInvokePermission:
       Type: AWS::Lambda::Permission
       Properties:
