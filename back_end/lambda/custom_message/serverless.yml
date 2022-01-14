@@ -13,12 +13,12 @@ provider:
   region: ${opt:region}
   deploymentBucket:
     name: ${env:APP_NAME}-deployment-bucket
-  stackName: ${custom:functionName}
+  stackName: ${self:custom:functionName}
   lambdaHashingVersion: "20201221"
 
 functions:
   customMessage:
-    name: ${custom:functionName}
+    name: ${self:custom:functionName}
     runtime: python3.8
     timeout: 300
     handler: custom_message.handler
