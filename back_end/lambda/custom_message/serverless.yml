@@ -3,18 +3,18 @@ service: custom-message
 plugins:
   - serverless-python-requirements
 
-custom:
-  functionName: ${env:APP_NAME}-custom-message
-  userPoolArn: arn:aws:cognito-idp:${opt:region}:${aws:accountId}:userpool/${env:USER_POOL_ARN}
-
 provider:
   name: aws
   profile: ${opt:aws-profile}
   region: ${opt:region}
   deploymentBucket:
     name: ${env:APP_NAME}-deployment-bucket
-  stackName: ${self:custom:functionName}
+  stackName: ${env:APP_NAME}-custom-message
   lambdaHashingVersion: "20201221"
+
+custom:
+  functionName: ${env:APP_NAME}-custom-message
+  userPoolArn: arn:aws:cognito-idp:${opt:region}:${aws:accountId}:userpool/${env:USER_POOL_ARN}
 
 functions:
   customMessage:
