@@ -60,7 +60,8 @@ def deploy(config):
     deploy_custom_message(
         config["app"]["name"],
         app,
-        api_url
+        api_url,
+        auth_outputs["UserPoolId"]
     )
 
     print()

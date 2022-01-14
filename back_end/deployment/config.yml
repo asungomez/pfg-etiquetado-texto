@@ -1,5 +1,5 @@
 credentials:
-  aws_profile: admin-personal
+  aws_profile: pfg
   aws_region: us-east-2
 repository:
   url: https://github.com/asungomez/pfg-etiquetado-texto.git

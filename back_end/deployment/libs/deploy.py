@@ -67,11 +67,12 @@ def deploy_auth(app_name):
 
   return auth_outputs
 
-def deploy_custom_message(app_name, app_url, api_url):
+def deploy_custom_message(app_name, app_url, api_url, user_pool_id):
   environment = {
     "APP_NAME": app_name,
     "APP_BASE_URL": app_url,
-    "API_BASE_URL": api_url
+    "API_BASE_URL": api_url,
+    "USER_POOL_ID": user_pool_id
   }
 
   deploy(

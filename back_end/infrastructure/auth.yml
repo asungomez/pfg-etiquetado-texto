@@ -113,17 +113,6 @@ resources:
               - SNSRole
               - Arn
           ExternalId: ${env:APP_NAME}-sts-id
-    UserPoolCustomMessageLambdaInvokePermission:
-      Type: AWS::Lambda::Permission
-      DependsOn: UserPool
-      Properties:
-        Action: lambda:invokeFunction
-        Principal: cognito-idp.amazonaws.com
-        FunctionName: ${self:custom.customMessageFunctionName}
-        SourceArn:
-          Fn::GetAtt:
-            - UserPool
-            - Arn
     UserPoolClientWeb:
       Type: AWS::Cognito::UserPoolClient
       Properties:
