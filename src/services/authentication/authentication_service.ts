@@ -4,7 +4,12 @@ import { errorHandler } from './authentication_errors';
 
 export class AuthenticationService {
   public static async logIn(email: string, password: string): Promise<any> {
-    return Promise.resolve({});
+    try {
+      const user = await Auth.signIn(email, password);
+      return user;
+    } catch (e) {
+      return Promise.reject(errorHandler('logIn', e));
+    }
   }
 
   public static async requestResetPassword(email: string): Promise<void> {

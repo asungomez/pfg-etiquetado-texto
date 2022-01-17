@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { AuthenticationLayout } from '../components';
+import { AuthenticationLayout, DashboardLayout } from '../components';
 // import DashboardLayout from '../components/dashboard/DashboardLayout/DashboardLayout';
 // import NotFound from '../components/other/NotFound/NotFound';
-// import AuthenticatedRoute from './AuthenticatedRoute';
+import { AuthenticatedRoute } from './authenticated_route';
 import { UnauthenticatedRoute } from './unauthenticated_route';
 
 export const AppRouter: React.FC<{}> = () => {
@@ -16,9 +16,9 @@ export const AppRouter: React.FC<{}> = () => {
       >
         <AuthenticationLayout />
       </UnauthenticatedRoute>
-      {/* <AuthenticatedRoute path={['/panel']}>
+      <AuthenticatedRoute path={['/panel']}>
         <DashboardLayout />
-      </AuthenticatedRoute> */}
+      </AuthenticatedRoute>
       <Route path="/error">
         <AuthenticationLayout error={true} />
       </Route>

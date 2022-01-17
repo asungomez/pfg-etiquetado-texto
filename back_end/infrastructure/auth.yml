@@ -22,7 +22,7 @@ resources:
           Version: '2012-10-17'
           Statement:
             - Sid: ''
-              Effect: Deny
+              Effect: Allow
               Principal:
                 Federated: cognito-identity.amazonaws.com
               Action: 'sts:AssumeRoleWithWebIdentity'
@@ -34,7 +34,7 @@ resources:
           Version: '2012-10-17'
           Statement:
             - Sid: ''
-              Effect: Deny
+              Effect: Allow
               Principal:
                 Federated: cognito-identity.amazonaws.com
               Action: 'sts:AssumeRoleWithWebIdentity'
