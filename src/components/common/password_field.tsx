@@ -10,6 +10,7 @@ type PasswordFieldProps = {
   value: string;
   onChange: (e: any) => void;
   autoComplete?: string;
+  'data-testid'?: string;
 };
 
 export const PasswordField: React.FC<PasswordFieldProps> = ({
@@ -18,6 +19,7 @@ export const PasswordField: React.FC<PasswordFieldProps> = ({
   onChange,
   name = 'password',
   autoComplete,
+  'data-testid': dataTestId,
 }) => {
   const [focused, setFocused] = useState(false);
 
@@ -43,6 +45,7 @@ export const PasswordField: React.FC<PasswordFieldProps> = ({
           onBlur={onBlur}
           fullWidth
           autoComplete={autoComplete}
+          data-testid={dataTestId}
         />
       }
     >

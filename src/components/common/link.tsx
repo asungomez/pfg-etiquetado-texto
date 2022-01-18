@@ -1,6 +1,6 @@
 import { EuiLink } from '@elastic/eui';
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 const isModifiedEvent = (event: any) =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
@@ -20,7 +20,7 @@ type LinkProps = {
 export const Link: React.FC<LinkProps> = ({ to, ...rest }) => {
   const history = useHistory();
 
-  function onClick(event: any) {
+  const onClick = (event: any) => {
     if (event.defaultPrevented) {
       return;
     }
@@ -39,7 +39,7 @@ export const Link: React.FC<LinkProps> = ({ to, ...rest }) => {
 
     // Push the route to the history.
     history.push(to);
-  }
+  };
 
   // Generate the correct link href (with basename accounted for)
   const href = history.createHref({ pathname: to });

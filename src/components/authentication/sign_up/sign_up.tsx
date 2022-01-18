@@ -65,7 +65,6 @@ export const SignUp: React.FC<{}> = () => {
         setSubmitting(false);
       })
       .catch(error => {
-        console.log(error);
         setError(error.message);
         setSubmitting(false);
       });
@@ -83,7 +82,10 @@ export const SignUp: React.FC<{}> = () => {
       <EuiSpacer size="xs" />
       <EuiFlexItem grow={false}>
         <EuiText size="s" textAlign="center">
-          ¿Ya te has registrado? <Link to="/iniciar-sesion">Inicia sesión</Link>
+          ¿Ya te has registrado?{' '}
+          <Link to="/iniciar-sesion" data-testid="log-in-link">
+            Inicia sesión
+          </Link>
         </EuiText>
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
@@ -92,18 +94,15 @@ export const SignUp: React.FC<{}> = () => {
           validationSchema={schema}
           onSubmit={submit}
         >
-          {({
-            handleSubmit,
-            errors,
-            touched,
-            values,
-            handleChange,
-            handleBlur,
-          }) => (
+          {({ handleSubmit, errors, touched, values, handleChange }) => (
             <EuiForm component="form" onSubmit={handleSubmit}>
               {!!error && (
                 <>
-                  <EuiCallOut color="danger" title="Ha habido un error">
+                  <EuiCallOut
+                    color="danger"
+                    title="Ha habido un error"
+                    data-testid="error-callout"
+                  >
                     {error}
                   </EuiCallOut>
                   <EuiSpacer />
@@ -120,6 +119,7 @@ export const SignUp: React.FC<{}> = () => {
                   value={values.email}
                   onChange={handleChange}
                   icon="email"
+                  data-testid="email-input"
                 />
               </EuiFormRow>
               <EuiFormRow
@@ -131,6 +131,7 @@ export const SignUp: React.FC<{}> = () => {
                   value={values.password}
                   onChange={handleChange}
                   displayRestrictions={popoverOpen}
+                  data-testid="password-input"
                 />
               </EuiFormRow>
               <EuiSpacer size="xl" />
@@ -141,6 +142,7 @@ export const SignUp: React.FC<{}> = () => {
                   fill
                   isLoading={submitting}
                   fullWidth
+                  data-testid="submit-button"
                 >
                   Crear cuenta
                 </EuiButton>
