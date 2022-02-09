@@ -96,7 +96,11 @@ export const LogIn: React.FC<{}> = () => {
             <EuiForm component="form" onSubmit={handleSubmit}>
               {!!error && (
                 <>
-                  <EuiCallOut color="danger" title="Ha habido un error">
+                  <EuiCallOut
+                    color="danger"
+                    title="Ha habido un error"
+                    data-testid="error-message"
+                  >
                     {error}
                   </EuiCallOut>
                   <EuiSpacer />
@@ -105,8 +109,9 @@ export const LogIn: React.FC<{}> = () => {
               {!!message && !error && (
                 <>
                   <LogInMessage
-                    type={message as LogInMessageType}
+                    type={message}
                     email={email}
+                    data-testid="info-message"
                   />
                   <EuiSpacer />
                 </>
@@ -124,6 +129,7 @@ export const LogIn: React.FC<{}> = () => {
                   onChange={handleChange}
                   icon="email"
                   fullWidth
+                  data-testid="email-input"
                 />
               </EuiFormRow>
               <EuiFormRow
@@ -138,6 +144,7 @@ export const LogIn: React.FC<{}> = () => {
                   value={values.password}
                   onChange={handleChange}
                   fullWidth
+                  data-testid="password-input"
                 />
               </EuiFormRow>
               <EuiSpacer size="xl" />
@@ -150,6 +157,7 @@ export const LogIn: React.FC<{}> = () => {
                       fill
                       isLoading={submitting}
                       fullWidth
+                      data-testid="submit-button"
                     >
                       Iniciar sesión
                     </EuiButton>

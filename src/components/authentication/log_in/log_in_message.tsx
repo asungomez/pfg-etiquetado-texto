@@ -26,6 +26,7 @@ type LogInMessageDefinition = {
     description: string;
     color: 'primary' | 'success' | 'warning' | 'danger';
     action?: LogInMessageActionType;
+    needsEmail?: boolean;
   };
 };
 
@@ -35,6 +36,7 @@ const messageDefinition: LogInMessageDefinition = {
     description: 'Te hemos enviado un enlace de confirmación',
     color: 'primary',
     action: 'resendConfirmationMail',
+    needsEmail: true,
   },
   confirmed: {
     title: 'Tu cuenta ha sido confirmada',
@@ -47,6 +49,7 @@ const messageDefinition: LogInMessageDefinition = {
       'Te hemos enviado un mensaje con un enlace de confirmación tras tu registro. Si no lo has recibido, podemos enviártelo otra vez.',
     color: 'danger',
     action: 'resendConfirmationMail',
+    needsEmail: true,
   },
   notExistent: {
     title: 'No existe la cuenta',
@@ -60,6 +63,7 @@ const messageDefinition: LogInMessageDefinition = {
     description: 'Te hemos enviado un enlace para restaurar tu contraseña',
     color: 'primary',
     action: 'resendPasswordMail',
+    needsEmail: true,
   },
   resetPasswordSucceeded: {
     title: 'Tu contraseña se ha actualizado',
@@ -71,19 +75,28 @@ const messageDefinition: LogInMessageDefinition = {
 type LogInMessageProps = {
   type: LogInMessageType;
   email?: string;
+  'data-testid'?: string;
 };
 
-export const LogInMessage: React.FC<LogInMessageProps> = ({ type, email }) => {
+export const LogInMessage: React.FC<LogInMessageProps> = ({
+  type,
+  email,
+  'data-testid': testId,
+}) => {
   const [error, setError] = useState<string>(null);
   const [success, setSuccess] = useState<string>(null);
 
-  return (
+  const display: boolean =
+    messageDefinition[type] && (!!email || !messageDefinition[type].needsEmail);
+
+  return display ? (
     <EuiCallOut
       title={error ? error : success ? success : messageDefinition[type].title}
       color={
         error ? 'danger' : success ? 'success' : messageDefinition[type].color
       }
       iconType={error ? 'alert' : success ? 'check' : null}
+      data-testid={testId}
     >
       {!error && !success && (
         <>
@@ -114,5 +127,5 @@ export const LogInMessage: React.FC<LogInMessageProps> = ({ type, email }) => {
         </>
       )}
     </EuiCallOut>
-  );
+  ) : null;
 };

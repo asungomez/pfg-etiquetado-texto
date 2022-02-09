@@ -8,16 +8,9 @@ import {
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 
+import { validUser } from '../../../mocks/users';
 import { AuthenticationService } from '../../../services';
 import { SignUp } from '.';
-
-const user: {
-  email: string;
-  password: string;
-} = {
-  email: 'some@valid.email',
-  password: 'Val1dPa$$w0rD',
-};
 
 const renderComponent = () => {
   const history = createMemoryHistory();
@@ -37,8 +30,8 @@ const submitForm = async () => {
 };
 
 const fillForm = async (
-  email: string = user.email,
-  password: string = user.password
+  email: string = validUser.email,
+  password: string = validUser.password
 ) => {
   await act(async () => {
     const emailInput = await screen.findByTestId('email-input');
@@ -64,7 +57,7 @@ describe('SignUp', () => {
   });
 
   describe('Filling the form', () => {
-    describe('Incorrectly', () => {
+    describe('Empty', () => {
       it('displays error messages', async () => {
         renderComponent();
         await submitForm();
@@ -125,7 +118,7 @@ describe('SignUp', () => {
         await submitForm();
         await waitFor(() =>
           expect(pushSpy).toHaveBeenCalledWith(
-            '/iniciar-sesion?message=registered&email=' + user.email
+            '/iniciar-sesion?message=registered&email=' + validUser.email
           )
         );
       });
@@ -144,7 +137,7 @@ describe('SignUp', () => {
         await fillForm();
         await submitForm();
         await waitFor(async () => {
-          const errorCallout = await screen.getByTestId('error-callout');
+          const errorCallout = screen.getByTestId('error-callout');
           return expect(errorCallout).toBeInTheDocument();
         });
       });
