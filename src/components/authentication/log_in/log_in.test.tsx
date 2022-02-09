@@ -6,21 +6,6 @@ import { validUser } from '../../../mocks/users';
 import { AuthenticationService } from '../../../services';
 import { LogIn } from '.';
 
-/**
- * Inputs:
- *   AuthenticationService.logIn response (try all errors)
- *   Email field values
- *   Password field values
- *   Submission
- *   Click on links
- *
- * Outputs:
- *   useLogin return function call
- *   UI error messages
- *   UI info messages
- *   Change URL
- */
-
 const renderComponent = (url: string = '/') => {
   render(
     <MemoryRouter initialEntries={[url]}>
