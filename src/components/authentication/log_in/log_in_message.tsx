@@ -30,7 +30,7 @@ type LogInMessageDefinition = {
   };
 };
 
-const messageDefinition: LogInMessageDefinition = {
+export const messageDefinition: LogInMessageDefinition = {
   registered: {
     title: 'Comprueba tu bandeja de entrada',
     description: 'Te hemos enviado un enlace de confirmación',
@@ -105,20 +105,18 @@ export const LogInMessage: React.FC<LogInMessageProps> = ({
           {messageDefinition[type].action && (
             <>
               <EuiSpacer />
-              <EuiFlexGroup direction="row" justifyContent="flexEnd">
+              <EuiFlexGroup
+                direction="row"
+                justifyContent="flexEnd"
+                data-testid="action-button"
+              >
                 <EuiFlexItem grow={false}>
                   <LogInMessageAction
                     type={messageDefinition[type].action}
                     email={email}
                     onError={setError}
                     onSuccess={setSuccess}
-                    color={
-                      error
-                        ? 'danger'
-                        : success
-                        ? 'success'
-                        : messageDefinition[type].color
-                    }
+                    color={messageDefinition[type].color}
                   />
                 </EuiFlexItem>
               </EuiFlexGroup>

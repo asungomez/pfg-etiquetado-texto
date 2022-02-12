@@ -102,14 +102,15 @@ export const LogInMessageAction: React.FC<LogInMessageActionProps> = ({
     },
   };
 
-  return (
+  return actions[type] ? (
     <EuiButton
       iconType={actions[type].icon}
       onClick={actions[type].action}
       isLoading={loading}
       color={mapColor(color)}
+      data-testid="action-button"
     >
       {actions[type].text}
     </EuiButton>
-  );
+  ) : null;
 };
