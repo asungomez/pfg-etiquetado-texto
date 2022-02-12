@@ -5,12 +5,20 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
+import { ISignUpResult } from 'amazon-cognito-identity-js';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 
 import { validUser } from '../../../mocks/users';
 import { AuthenticationService } from '../../../services';
 import { SignUp } from '.';
+
+const signUpResponse: ISignUpResult = {
+  user: null,
+  userConfirmed: true,
+  userSub: 'sub',
+  codeDeliveryDetails: null,
+};
 
 const renderComponent = () => {
   const history = createMemoryHistory();
@@ -71,7 +79,9 @@ describe('SignUp', () => {
 
       it('does not submit the form', async () => {
         renderComponent();
-        const signUpSpy = jest.spyOn(AuthenticationService, 'signUp');
+        const signUpSpy = jest
+          .spyOn(AuthenticationService, 'signUp')
+          .mockImplementation(async () => Promise.resolve(signUpResponse));
         await submitForm();
         expect(signUpSpy).not.toHaveBeenCalled();
       });
@@ -84,17 +94,11 @@ describe('SignUp', () => {
       });
 
       it("submits the form with the user's credentials", async () => {
-        const signUpSpy = jest.spyOn(AuthenticationService, 'signUp');
+        const signUpSpy = jest
+          .spyOn(AuthenticationService, 'signUp')
+          .mockImplementation(async () => Promise.resolve(signUpResponse));
         await submitForm();
         expect(signUpSpy).toHaveBeenCalled();
-      });
-
-      it('sets the loading state on the submit button', async () => {
-        await submitForm();
-        const submitButton = await screen.findByTestId('submit-button');
-        expect(submitButton).toBeDisabled();
-        const spinner = submitButton.querySelector('.euiLoadingSpinner');
-        expect(spinner).toBeInTheDocument();
       });
     });
   });
@@ -104,14 +108,7 @@ describe('SignUp', () => {
       it('redirects to login', async () => {
         jest
           .spyOn(AuthenticationService, 'signUp')
-          .mockImplementation(async () =>
-            Promise.resolve({
-              user: null,
-              userConfirmed: true,
-              userSub: 'sub',
-              codeDeliveryDetails: null,
-            })
-          );
+          .mockImplementation(async () => Promise.resolve(signUpResponse));
         const history = renderComponent();
         const pushSpy = jest.spyOn(history, 'push');
         await fillForm();

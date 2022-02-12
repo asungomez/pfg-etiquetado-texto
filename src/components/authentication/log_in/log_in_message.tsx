@@ -108,7 +108,7 @@ export const LogInMessage: React.FC<LogInMessageProps> = ({
               <EuiFlexGroup
                 direction="row"
                 justifyContent="flexEnd"
-                data-testid="action-button"
+                data-testid="action-button-wrapper"
               >
                 <EuiFlexItem grow={false}>
                   <LogInMessageAction

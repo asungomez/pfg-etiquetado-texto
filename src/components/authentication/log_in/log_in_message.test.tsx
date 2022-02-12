@@ -37,7 +37,7 @@ describe('LogInMessage', () => {
   describe('With a type that includes an action', () => {
     it('renders the action button', async () => {
       render(<LogInMessage type="notExistent" />);
-      const actionButton = await screen.findByTestId('action-button');
+      const actionButton = await screen.findByTestId('action-button-wrapper');
       expect(actionButton).toBeInTheDocument();
     });
   });
