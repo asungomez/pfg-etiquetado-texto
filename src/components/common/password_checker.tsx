@@ -23,5 +23,7 @@ export const PasswordChecker: React.FC<PasswordCheckerProps> = ({
       />
     );
   });
-  return <EuiListGroup gutterSize="s">{policyItems}</EuiListGroup>;
+  return policyItems.length ? (
+    <EuiListGroup gutterSize="s">{policyItems}</EuiListGroup>
+  ) : null;
 };
