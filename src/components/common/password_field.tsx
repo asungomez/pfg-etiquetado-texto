@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import { usePasswordContext } from '../../contexts';
 import { PasswordChecker } from '.';
 
-type PasswordFieldProps = {
+export type PasswordFieldProps = {
   displayRestrictions?: boolean;
   name?: string;
   value: string;
-  onChange: (e: any) => void;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
   autoComplete?: string;
   'data-testid'?: string;
 };
