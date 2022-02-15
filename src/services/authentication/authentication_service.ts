@@ -1,15 +1,44 @@
-import { ISignUpResult } from 'amazon-cognito-identity-js';
+import { CognitoUserSession, ISignUpResult } from 'amazon-cognito-identity-js';
 import { Auth } from 'aws-amplify';
 
+import { User } from '.';
 import { errorHandler } from './authentication_errors';
+import { mapCognitoAttributes } from './authentication_mappings';
 
 export class AuthenticationService {
+  public static async checkAuthentication(): Promise<CognitoUserSession> {
+    try {
+      const response = await Auth.currentSession();
+      return Promise.resolve(response);
+    } catch (e) {
+      return Promise.reject(errorHandler('checkAuthentication', e));
+    }
+  }
+
+  public static async getUserAttributes(): Promise<User> {
+    try {
+      const info = await Auth.currentUserInfo();
+      return Promise.resolve(mapCognitoAttributes(info.attributes));
+    } catch (e) {
+      return Promise.reject(errorHandler('getUserAttributes', e));
+    }
+  }
+
   public static async logIn(email: string, password: string): Promise<any> {
     try {
       const user = await Auth.signIn(email, password);
       return user;
     } catch (e) {
       return Promise.reject(errorHandler('logIn', e));
+    }
+  }
+
+  public static async logOut(): Promise<any> {
+    try {
+      const response = await Auth.signOut();
+      return Promise.resolve(response);
+    } catch (e) {
+      return Promise.reject(errorHandler('logOut', e));
     }
   }
 
