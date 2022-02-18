@@ -28,8 +28,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "echo \"Linting...\" && eslint \"./src/**/*.tsx\" \"./src/**/*.ts\"",
-    "format": "yarn --silent lint --fix"
+    "lint": "echo \"Linting...\" && eslint \"./src/**/*.tsx\" \"./src/**/*.ts\" \"./cypress/**/*.ts\"",
+    "format": "yarn --silent lint --fix",
+    "e2e": "yarn cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +61,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^11.2.7",
+    "cypress": "^9.5.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
