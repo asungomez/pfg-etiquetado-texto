@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-import * as setup from '../../setup/authentication/sign-up';
+import * as setup from '../../setup/authentication/sign_up';
 import { User } from '../../types/types';
 import { selectors } from '../../utils/selectors';
 
@@ -16,7 +16,7 @@ const signUp = (user: User) => {
 
 describe('Sign up', () => {
   before(() => {
-    cy.fixture('authentication/sign-up/data.json').then(
+    cy.fixture('authentication/sign_up/data.json').then(
       ({ users: fixtureUsers }) => {
         users = fixtureUsers;
       }

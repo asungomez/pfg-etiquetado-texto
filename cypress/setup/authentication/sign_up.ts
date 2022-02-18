@@ -2,6 +2,7 @@ import {
   mockCognitoBasedOnHeader,
   mockCognitoFromFixture,
 } from '../../mocks/cognito';
+import { config } from '../../utils/config';
 
 /**
  * Attempt to sign up with an already registered

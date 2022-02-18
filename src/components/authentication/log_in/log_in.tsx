@@ -164,7 +164,11 @@ export const LogIn: React.FC<{}> = () => {
                   </EuiFlexItem>
                   <EuiFlexItem>
                     <Link to="/recuperar-contrasena">
-                      <EuiButtonEmpty type="submit" color="primary">
+                      <EuiButtonEmpty
+                        type="submit"
+                        color="primary"
+                        data-testid="forgot-password-button"
+                      >
                         Olvidé mi contraseña
                       </EuiButtonEmpty>
                     </Link>

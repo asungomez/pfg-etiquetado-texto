@@ -16,5 +16,19 @@
 // Import commands.js using ES2015 syntax:
 import './commands';
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      /**
+       * Custom command to set online mode.
+       * @example cy.online()
+       */
+      online(): Chainable<Element>;
+      /**
+       * Custom command to set offline mode.
+       * @example cy.offline()
+       */
+      offline(): Chainable<Element>;
+    }
+  }
+}

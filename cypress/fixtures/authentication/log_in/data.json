@@ -1,0 +1,16 @@
+{
+  "users": {
+    "regular": {
+      "email": "regular@example.com",
+      "password": "aaaAAA1.1.1."
+    },
+    "notConfirmed": {
+      "email": "not_confirmed@example.com",
+      "password": "aaaAAA1.1.1."
+    },
+    "nonExistent": {
+      "email": "non_existent@example.com",
+      "password": "aaaAAA1.1.1."
+    }
+  }
+}

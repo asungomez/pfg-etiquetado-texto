@@ -1,5 +1,24 @@
 import { createError, handleError } from '../utils';
 
+const logIn = (error: any) => {
+  if (error.code === 'UserNotConfirmedException') {
+    return createError(
+      'Tu cuenta no está confirmada.',
+      'UserNotConfirmedException'
+    );
+  }
+  if (error.code === 'NotAuthorizedException') {
+    return createError('Contraseña incorrecta');
+  }
+  if (error.code === 'UserNotFoundException') {
+    return createError(
+      'El usuario no se encuentra registrado',
+      'UserNotFoundException'
+    );
+  }
+  return error;
+};
+
 const resendConfirmationMessage = (error: any) => {
   if (error.response?.status === 429) {
     return createError(
@@ -31,6 +50,7 @@ const signUp = (error: any) => {
 };
 
 const errorMethods = {
+  logIn,
   resendConfirmationMessage,
   signUp,
 };

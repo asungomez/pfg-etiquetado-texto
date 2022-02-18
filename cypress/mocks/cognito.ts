@@ -8,10 +8,10 @@ import { mockResponse } from './utils';
  * Mock all Cognito's API requests with given response
  * @param response Mocked response body and code
  */
-export const mockCognito = (response: Response) => {
+export const mockCognito = (response: Response, url = config.cognitoUrl) => {
   mockResponse({
     ...response,
-    url: config.cognitoUrl,
+    url,
     method: 'POST',
     alias: 'cognito',
   });
@@ -38,11 +38,14 @@ export const mockCognitoFromFixture = (
  * Mock several Cognito API responses, each one based on the AMZ request header
  * @param responses Different responses based on the AMZ request header
  */
-export const mockCognitoBasedOnHeader = (responses: HeaderResponses) => {
+export const mockCognitoBasedOnHeader = (
+  responses: HeaderResponses,
+  url = config.cognitoUrl
+) => {
   cy.intercept(
     {
       method: 'POST',
-      url: config.cognitoUrl,
+      url,
     },
     req => {
       if (
