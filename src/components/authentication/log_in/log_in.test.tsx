@@ -83,16 +83,23 @@ describe('LogIn', () => {
     });
 
     describe('With valid information', () => {
-      beforeEach(async () => {
+      it('sets the loading state', async () => {
         jest
           .spyOn(AuthenticationService, 'logIn')
-          .mockImplementation(async () => {});
+          .mockImplementation(async () => Promise.resolve());
+        jest
+          .spyOn(AuthenticationService, 'getUserAttributes')
+          .mockImplementation(async () =>
+            Promise.resolve({
+              name: 'John',
+              familyName: 'Doe',
+              email: 'john.doe@example.com',
+              sub: 'ksdfhksjdfs',
+            })
+          );
         renderComponent();
         await fillForm();
         await submitForm();
-      });
-
-      it('sets the loading state', async () => {
         const submitButton = await screen.findByTestId('submit-button');
         expect(submitButton).toBeDisabled();
         const spinner = submitButton.querySelector('.euiLoadingSpinner');

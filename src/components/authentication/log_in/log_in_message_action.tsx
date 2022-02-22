@@ -17,7 +17,7 @@ type LogInMessageActionDescription = {
   };
 };
 
-type LogInMessageActionProps = {
+export type LogInMessageActionProps = {
   type: LogInMessageActionType;
   email?: string;
   color: 'primary' | 'success' | 'warning' | 'danger';

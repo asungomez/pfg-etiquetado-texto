@@ -3,45 +3,42 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 
 import { AuthenticationService } from '../../../services';
-import { LogInMessageAction } from './log_in_message_action';
+import {
+  LogInMessageAction,
+  LogInMessageActionProps,
+} from './log_in_message_action';
+
+const defaultProps: LogInMessageActionProps = {
+  type: 'resendConfirmationMail',
+  color: 'danger',
+  onError: () => {},
+  onSuccess: () => {},
+};
+
+const renderComponent = (props: Partial<LogInMessageActionProps> = {}) => {
+  const componentProps = {
+    ...defaultProps,
+    ...props,
+  };
+  return render(<LogInMessageAction {...componentProps} />);
+};
 
 describe('LogInMessageAction', () => {
   describe('Null action type', () => {
     it('does not render', () => {
-      const { container } = render(
-        <LogInMessageAction
-          type={null}
-          color="danger"
-          onError={() => {}}
-          onSuccess={() => {}}
-        />
-      );
+      const { container } = renderComponent({ type: null });
       expect(container).toBeEmptyDOMElement();
     });
   });
 
   describe('Resend confirmation mail', () => {
     it('renders', () => {
-      const { container } = render(
-        <LogInMessageAction
-          type="resendConfirmationMail"
-          color="danger"
-          onError={() => {}}
-          onSuccess={() => {}}
-        />
-      );
+      const { container } = renderComponent();
       expect(container).not.toBeEmptyDOMElement();
     });
 
     it('displays the action text', async () => {
-      render(
-        <LogInMessageAction
-          type="resendConfirmationMail"
-          color="danger"
-          onError={() => {}}
-          onSuccess={() => {}}
-        />
-      );
+      renderComponent();
       const actionText = await screen.findByText('Enviar de nuevo');
       expect(actionText).toBeInTheDocument();
     });
@@ -50,14 +47,7 @@ describe('LogInMessageAction', () => {
       describe('When email is not provided', () => {
         it('calls the onError callback', async () => {
           const onError = jest.fn();
-          render(
-            <LogInMessageAction
-              type="resendConfirmationMail"
-              color="danger"
-              onError={onError}
-              onSuccess={() => {}}
-            />
-          );
+          renderComponent({ onError });
           const actionButton = await screen.findByTestId('action-button');
           fireEvent.click(actionButton);
           expect(onError).toBeCalledWith('No se pudo enviar el mensaje');
@@ -69,15 +59,7 @@ describe('LogInMessageAction', () => {
           const spy = jest
             .spyOn(AuthenticationService, 'resendConfirmationMessage')
             .mockImplementation(async () => {});
-          render(
-            <LogInMessageAction
-              type="resendConfirmationMail"
-              color="danger"
-              onError={() => {}}
-              onSuccess={() => {}}
-              email="some@email.com"
-            />
-          );
+          renderComponent({ email: 'some@email.com' });
           const actionButton = await screen.findByTestId('action-button');
           await act(async () => {
             fireEvent.click(actionButton);
@@ -91,15 +73,10 @@ describe('LogInMessageAction', () => {
               .spyOn(AuthenticationService, 'resendConfirmationMessage')
               .mockImplementation(async () => {});
             const successCallback = jest.fn();
-            render(
-              <LogInMessageAction
-                type="resendConfirmationMail"
-                color="danger"
-                onError={() => {}}
-                onSuccess={successCallback}
-                email="some@email.com"
-              />
-            );
+            renderComponent({
+              email: 'some@email.com',
+              onSuccess: successCallback,
+            });
             const actionButton = await screen.findByTestId('action-button');
             await act(async () => {
               fireEvent.click(actionButton);
@@ -114,15 +91,10 @@ describe('LogInMessageAction', () => {
               .spyOn(AuthenticationService, 'resendConfirmationMessage')
               .mockRejectedValue('Something went wrong');
             const errorCallback = jest.fn();
-            render(
-              <LogInMessageAction
-                type="resendConfirmationMail"
-                color="danger"
-                onError={errorCallback}
-                onSuccess={() => {}}
-                email="some@email.com"
-              />
-            );
+            renderComponent({
+              email: 'some@email.com',
+              onError: errorCallback,
+            });
             const actionButton = await screen.findByTestId('action-button');
             await act(async () => {
               fireEvent.click(actionButton);
@@ -136,26 +108,12 @@ describe('LogInMessageAction', () => {
 
   describe('Resend password mail', () => {
     it('renders', () => {
-      const { container } = render(
-        <LogInMessageAction
-          type="resendPasswordMail"
-          color="danger"
-          onError={() => {}}
-          onSuccess={() => {}}
-        />
-      );
+      const { container } = renderComponent({ type: 'resendPasswordMail' });
       expect(container).not.toBeEmptyDOMElement();
     });
 
     it('displays the action text', async () => {
-      render(
-        <LogInMessageAction
-          type="resendPasswordMail"
-          color="danger"
-          onError={() => {}}
-          onSuccess={() => {}}
-        />
-      );
+      renderComponent({ type: 'resendPasswordMail' });
       const actionText = await screen.findByText('Enviar de nuevo');
       expect(actionText).toBeInTheDocument();
     });
@@ -164,14 +122,7 @@ describe('LogInMessageAction', () => {
       describe('When email is not provided', () => {
         it('calls the onError callback', async () => {
           const onError = jest.fn();
-          render(
-            <LogInMessageAction
-              type="resendPasswordMail"
-              color="danger"
-              onError={onError}
-              onSuccess={() => {}}
-            />
-          );
+          renderComponent({ type: 'resendPasswordMail', onError });
           const actionButton = await screen.findByTestId('action-button');
           fireEvent.click(actionButton);
           expect(onError).toBeCalledWith('No se pudo enviar el mensaje');
@@ -183,15 +134,10 @@ describe('LogInMessageAction', () => {
           const spy = jest
             .spyOn(AuthenticationService, 'requestResetPassword')
             .mockImplementation(async () => {});
-          render(
-            <LogInMessageAction
-              type="resendPasswordMail"
-              color="danger"
-              onError={() => {}}
-              onSuccess={() => {}}
-              email="some@email.com"
-            />
-          );
+          renderComponent({
+            type: 'resendPasswordMail',
+            email: 'some@email.com',
+          });
           const actionButton = await screen.findByTestId('action-button');
           await act(async () => {
             fireEvent.click(actionButton);
@@ -205,15 +151,11 @@ describe('LogInMessageAction', () => {
               .spyOn(AuthenticationService, 'requestResetPassword')
               .mockImplementation(async () => {});
             const successCallback = jest.fn();
-            render(
-              <LogInMessageAction
-                type="resendPasswordMail"
-                color="danger"
-                onError={() => {}}
-                onSuccess={successCallback}
-                email="some@email.com"
-              />
-            );
+            renderComponent({
+              type: 'resendPasswordMail',
+              email: 'some@email.com',
+              onSuccess: successCallback,
+            });
             const actionButton = await screen.findByTestId('action-button');
             await act(async () => {
               fireEvent.click(actionButton);
@@ -228,15 +170,11 @@ describe('LogInMessageAction', () => {
               .spyOn(AuthenticationService, 'requestResetPassword')
               .mockRejectedValue('Something went wrong');
             const errorCallback = jest.fn();
-            render(
-              <LogInMessageAction
-                type="resendPasswordMail"
-                color="danger"
-                onError={errorCallback}
-                onSuccess={() => {}}
-                email="some@email.com"
-              />
-            );
+            renderComponent({
+              type: 'resendPasswordMail',
+              email: 'some@email.com',
+              onError: errorCallback,
+            });
             const actionButton = await screen.findByTestId('action-button');
             await act(async () => {
               fireEvent.click(actionButton);
@@ -250,26 +188,12 @@ describe('LogInMessageAction', () => {
 
   describe('Register', () => {
     it('renders', () => {
-      const { container } = render(
-        <LogInMessageAction
-          type="register"
-          color="danger"
-          onError={() => {}}
-          onSuccess={() => {}}
-        />
-      );
+      const { container } = renderComponent({ type: 'register' });
       expect(container).not.toBeEmptyDOMElement();
     });
 
     it('displays the action text', async () => {
-      render(
-        <LogInMessageAction
-          type="register"
-          color="danger"
-          onError={() => {}}
-          onSuccess={() => {}}
-        />
-      );
+      renderComponent({ type: 'register' });
       const actionText = await screen.findByText('Crear nueva cuenta');
       expect(actionText).toBeInTheDocument();
     });
