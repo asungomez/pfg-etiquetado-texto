@@ -1,0 +1,13 @@
+{
+  "users": {
+    "regular": {
+      "email": "regular@example.com"
+    },
+    "nonConfirmed": {
+      "email": "non_confirmed@example.com"
+    },
+    "nonRegistered": {
+      "email": "non_registered@example.com"
+    }
+  }
+}

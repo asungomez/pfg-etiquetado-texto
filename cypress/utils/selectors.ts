@@ -20,6 +20,11 @@ export const selectors = {
     formInfoMessage: '[data-testid="info-message"]',
     spinner: commonSelectors.spinner,
   },
+  resetPassword: {
+    actionButton: '[data-testid="action-button"]',
+    emailInput: '[data-testid="email-input"]',
+    submitButton: '[data-testid="submit-button"]',
+  },
   signUp: {
     emailInput: '[data-testid="email-input"]',
     passwordInput: '[data-testid="password-input"]',

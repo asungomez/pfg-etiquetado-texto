@@ -43,7 +43,12 @@ export class AuthenticationService {
   }
 
   public static async requestResetPassword(email: string): Promise<void> {
-    return Promise.resolve();
+    try {
+      await Auth.forgotPassword(email);
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(errorHandler('requestResetPassword', e));
+    }
   }
 
   public static async resendConfirmationMessage(email: string): Promise<void> {

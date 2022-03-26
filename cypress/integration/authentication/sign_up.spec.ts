@@ -14,7 +14,7 @@ const signUp = (user: User) => {
   cy.wait('@cognito');
 };
 
-describe('Sign up', () => {
+describe('Registro', () => {
   before(() => {
     cy.fixture('authentication/sign_up/data.json').then(
       ({ users: fixtureUsers }) => {

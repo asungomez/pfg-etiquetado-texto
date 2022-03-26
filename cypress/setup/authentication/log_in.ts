@@ -1,5 +1,4 @@
 import {
-  mockCognito,
   mockCognitoBasedOnHeader,
   mockCognitoFromFixture,
 } from '../../mocks/cognito';

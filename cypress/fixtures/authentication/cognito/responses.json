@@ -3,9 +3,7 @@
     "__type": "UserNotFoundException",
     "message": "User does not exist."
   },
-  "internalError": {
-
-  },
+  "internalError": {},
   "wrongPassword": {
     "__type": "NotAuthorizedException",
     "message": "Incorrect username or password."
@@ -59,6 +57,19 @@
     },
     "ChallengeParameters": {}
   },
+  "requestResetPasswordLimitExceeded": {
+    "__type": "LimitExceededException",
+    "message": "Attempt limit exceeded, please try after some time."
+  },
+  "requestResetPasswordNonConfirmed": {
+    "__type": "InvalidParameterException",
+    "message": "Cannot reset password for the user as there is no registered/verified email or phone_number"
+  },
+  "requestResetPasswordNonRegistered": {
+    "__type": "UserNotFoundException",
+    "message": "Username/client id combination not found."
+  },
+  "requestResetPasswordSuccess": {},
   "successLogin": {
     "ChallengeName": "PASSWORD_VERIFIER",
     "ChallengeParameters": {

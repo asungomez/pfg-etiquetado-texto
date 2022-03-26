@@ -19,6 +19,26 @@ const logIn = (error: any) => {
   return error;
 };
 
+const requestResetPassword = (error: any) => {
+  if (error.code === 'UserNotFoundException') {
+    return createError(
+      'El usuario no se encuentra registrado',
+      'UserNotFoundException'
+    );
+  } else if (
+    error.code === 'InvalidParameterException' &&
+    error.message.includes('registered/verified')
+  ) {
+    return createError('Usuario no confirmado', 'UserNotConfirmedException');
+  }
+  if (error.code === 'LimitExceededException') {
+    return createError(
+      'Demasiados intentos, espera 2 horas antes de volver a probar.'
+    );
+  }
+  return error;
+};
+
 const resendConfirmationMessage = (error: any) => {
   if (error.response?.status === 429) {
     return createError(
@@ -51,6 +71,7 @@ const signUp = (error: any) => {
 
 const errorMethods = {
   logIn,
+  requestResetPassword,
   resendConfirmationMessage,
   signUp,
 };
