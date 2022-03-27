@@ -1,9 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { AuthenticationLayout, DashboardLayout } from '../components';
-// import DashboardLayout from '../components/dashboard/DashboardLayout/DashboardLayout';
-// import NotFound from '../components/other/NotFound/NotFound';
+import { AuthenticationLayout, DashboardLayout, NotFound } from '../components';
 import { AuthenticatedRoute } from './authenticated_route';
 import { UnauthenticatedRoute } from './unauthenticated_route';
 
@@ -22,9 +20,9 @@ export const AppRouter: React.FC<{}> = () => {
       <Route path="/error">
         <AuthenticationLayout error={true} />
       </Route>
-      {/* <Route>
+      <Route>
         <NotFound />
-      </Route> */}
+      </Route>
     </Switch>
   );
 };
