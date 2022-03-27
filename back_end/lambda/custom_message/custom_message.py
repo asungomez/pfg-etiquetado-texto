@@ -17,7 +17,7 @@ def handler(event, context):
   if event_type == "CustomMessage_ForgotPassword":
     email = event["request"]["userAttributes"]["email"]
     code_parameter = event["request"]["codeParameter"]
-    url = f"{os.environ['APP_BASE_URL']}/recuperar-contrasena?code={code_parameter}&email={email}"
+    url = f"{os.environ['APP_BASE_URL']}/nueva-contrasena?code={code_parameter}&email={email}"
     event["response"]["emailSubject"] = "Restaurar contraseña"
     event["response"]["emailMessage"] = forgot_password_template(url)
 
