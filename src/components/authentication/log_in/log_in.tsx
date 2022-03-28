@@ -17,10 +17,10 @@ import {
 } from '@elastic/eui';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useLogin } from '../../../hooks/use_login';
+import { useQueryParam } from '../../../hooks/use_query_param';
 import { AuthenticationService } from '../../../services';
 import { Link } from '../../common/link';
 import { LogInMessage, LogInMessageType } from './log_in_message';
@@ -45,13 +45,10 @@ const schema = Yup.object().shape({
 export const LogIn: React.FC<{}> = () => {
   const [error, setError] = useState<string>(null);
   const [submitting, setSubmitting] = useState(false);
-  const location = useLocation();
-  const [message, setMessage] = useState<LogInMessageType>(
-    new URLSearchParams(location.search).get('message') as LogInMessageType
-  );
-  const [email, setEmail] = useState(
-    new URLSearchParams(location.search).get('email')
-  );
+  const queryMessage = useQueryParam('message') as LogInMessageType;
+  const queryEmail = useQueryParam('email');
+  const [message, setMessage] = useState<LogInMessageType>(queryMessage);
+  const [email, setEmail] = useState(queryEmail);
   const logIn = useLogin('/panel');
 
   const submit = ({ email, password }: LogInFormValues) => {

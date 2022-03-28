@@ -48,6 +48,19 @@ const resendConfirmationMessage = (error: any) => {
   return error;
 };
 
+const resetPassword = (error: any) => {
+  if (error.code === 'ExpiredCodeException') {
+    return createError('El enlace ha expirado', 'ExpiredCodeException');
+  }
+  if (error.code === 'LimitExceededException') {
+    return createError(
+      'Demasiados reintentos. Vuelve a probar en 2h',
+      'LimitExceededException'
+    );
+  }
+  return error;
+};
+
 const signUp = (error: any) => {
   if (
     error.message?.includes('already registered') ||
@@ -73,6 +86,7 @@ const errorMethods = {
   logIn,
   requestResetPassword,
   resendConfirmationMessage,
+  resetPassword,
   signUp,
 };
 

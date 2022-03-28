@@ -51,6 +51,19 @@ export class AuthenticationService {
     }
   }
 
+  public static async resetPassword(
+    email: string,
+    password: string,
+    code: string
+  ): Promise<void> {
+    try {
+      await Auth.forgotPasswordSubmit(email, code, password);
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(errorHandler('resetPassword', e));
+    }
+  }
+
   public static async resendConfirmationMessage(email: string): Promise<void> {
     try {
       const response = await Auth.resendSignUp(email);

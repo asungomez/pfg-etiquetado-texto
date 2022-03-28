@@ -9,7 +9,13 @@ export const AppRouter: React.FC<{}> = () => {
   return (
     <Switch>
       <UnauthenticatedRoute
-        path={['/', '/iniciar-sesion', '/registro', '/recuperar-contrasena']}
+        path={[
+          '/',
+          '/iniciar-sesion',
+          '/registro',
+          '/recuperar-contrasena',
+          '/nueva-contrasena',
+        ]}
         exact
       >
         <AuthenticationLayout />

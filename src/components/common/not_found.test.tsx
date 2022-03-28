@@ -12,7 +12,7 @@ const renderComponent = () => {
     </Router>
   );
   return history;
-}
+};
 
 describe('NotFound', () => {
   it('renders', () => {
