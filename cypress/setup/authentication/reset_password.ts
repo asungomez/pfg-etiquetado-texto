@@ -1,3 +1,4 @@
+/// <reference types="Cypress" />
 import { StaticResponse } from 'cypress/types/net-stubbing';
 
 import {
