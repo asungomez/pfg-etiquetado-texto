@@ -31,4 +31,9 @@ export const selectors = {
     submitButton: '[data-testid="submit-button"]',
     fieldErrorMessage: commonSelectors.fieldErrorMessage,
   },
+  updatePassword: {
+    actionButton: '[data-testid="action-button"]',
+    passwordInput: '[data-testid="password-input"]',
+    submitButton: '[data-testid="submit-button"]',
+  },
 };

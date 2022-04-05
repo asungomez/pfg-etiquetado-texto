@@ -59,6 +59,7 @@ export const UpdatePasswordErrorExpired: React.FC<UpdatePasswordErrorExpiredProp
               onClick={resend}
               isLoading={status === 'loading'}
               color="danger"
+              data-testid="action-button"
             >
               Enviar de nuevo
             </EuiButton>

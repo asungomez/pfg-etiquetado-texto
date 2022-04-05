@@ -128,6 +128,7 @@ export const UpdatePassword: React.FC = () => {
                     fill
                     isLoading={loading}
                     fullWidth
+                    data-testid="submit-button"
                   >
                     Restaurar contraseña
                   </EuiButton>

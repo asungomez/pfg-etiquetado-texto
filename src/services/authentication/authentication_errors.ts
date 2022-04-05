@@ -49,7 +49,11 @@ const resendConfirmationMessage = (error: any) => {
 };
 
 const resetPassword = (error: any) => {
-  if (error.code === 'ExpiredCodeException') {
+  if (
+    error.code === 'ExpiredCodeException' ||
+    error.code === 'CodeMismatchException' ||
+    error.code === 'UserNotFoundException'
+  ) {
     return createError('El enlace ha expirado', 'ExpiredCodeException');
   }
   if (error.code === 'LimitExceededException') {

@@ -69,6 +69,34 @@
     "__type": "UserNotFoundException",
     "message": "Username/client id combination not found."
   },
+  "resetPasswordCodeMismatch": {
+    "__type": "CodeMismatchException",
+    "message": "Invalid verification code provided, please try again."
+  },
+  "resetPasswordExpiredCode": {
+    "__type": "ExpiredCodeException",
+    "message": "Invalid code provided, please request a code again."
+  },
+  "resetPasswordInvalidUser": {
+    "__type": "InvalidParameterException",
+    "message": "Cannot reset password for the user as there is no registered/verified email or phone_number"
+  },
+  "resetPasswordLimitExceeded": {
+    "__type": "LimitExceededException",
+    "message": "Attempt limit exceeded, please try after some time."
+  },
+  "resetPasswordMessageSent": {
+    "CodeDeliveryDetails": {
+      "AttributeName": "email",
+      "DeliveryMedium": "EMAIL",
+      "Destination": "j***@s***"
+    }
+  },
+  "resetPasswordUserNotFound": {
+    "__type": "UserNotFoundException",
+    "message": "Username/client id combination not found."
+  },
+  "resetPasswordSuccess": {},
   "requestResetPasswordSuccess": {},
   "successLogin": {
     "ChallengeName": "PASSWORD_VERIFIER",
