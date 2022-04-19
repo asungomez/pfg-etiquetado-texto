@@ -29,5 +29,10 @@ resources:
                   - ${env:AUTH_ROLE_ARN}
               Action:
                 - s3:PutObject
-              
+              Resource: 
+                Fn::GetAtt:
+                  - StorageBucket
+                  - Arn
+  Outputs:
+    BucketName: ${env:APP_NAME}-storage-bucket
                 
