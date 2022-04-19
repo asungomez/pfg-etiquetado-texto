@@ -92,6 +92,10 @@ def deploy_storage(app_name, auth_role_arn):
     template="storage.yml"
   )
 
+  storage_outputs = get_stack_outputs(f"{app_name}-storage")
+
+  return storage_outputs
+
 
 def deploy(path, env, template="serverless.yml"):
 

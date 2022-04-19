@@ -64,7 +64,7 @@ def deploy(config):
         auth_outputs["UserPoolId"]
     )
 
-    deploy_storage(
+    storage_outputs = deploy_storage(
         config["app"]["name"],
         auth_outputs["AuthRoleArn"]
     )
@@ -72,7 +72,12 @@ def deploy(config):
     print()
     print("Para lanzar la aplicación localmente, crea el fichero .env en el directorio raíz con "
           "el siguiente contenido:")
-    print(local_env_file(config["credentials"]["aws_region"], auth_outputs, api_url))
+    print(local_env_file(
+        config["credentials"]["aws_region"], 
+        auth_outputs, 
+        api_url,
+        storage_outputs["BucketName"]
+        ))
 
 def main():
     args = parse_args()
