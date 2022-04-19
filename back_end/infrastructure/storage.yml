@@ -20,19 +20,19 @@ resources:
       Properties:
         Bucket: ${env:APP_NAME}-storage-bucket
         PolicyDocument:
-          Version: "2012-10-17"
+          Version: '2012-10-17'
           Statement:
-            - Sid: AllowWriteUser
-              Effect: Allow
-              Principal:
-                AWS:
-                  - ${env:AUTH_ROLE_ARN}
-              Action:
-                - s3:PutObject
-              Resource: 
-                Fn::GetAtt:
-                  - StorageBucket
-                  - Arn
+          - Sid: AllowWriteUser
+            Action:
+            - s3:PutObject
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - StorageBucket
+                - Arn
+            Principal:
+              AWS:
+              - ${env:AUTH_ROLE_ARN}
   Outputs:
     BucketName: ${env:APP_NAME}-storage-bucket
                 
