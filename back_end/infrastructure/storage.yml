@@ -26,10 +26,11 @@ resources:
             Action:
             - s3:PutObject
             Effect: Allow
-            Resource:
-              Fn::GetAtt:
+            Resource: !Join
+              - Fn::GetAtt:
                 - StorageBucket
                 - Arn
+              - '/*'
             Principal:
               AWS:
               - ${env:AUTH_ROLE_ARN}
