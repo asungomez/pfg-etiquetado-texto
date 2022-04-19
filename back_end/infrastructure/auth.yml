@@ -289,6 +289,4 @@ resources:
       Value: !Ref UserPoolClientWeb
     AuthRoleArn:
       Description: Identity pool authenticated role
-      Value: Fn::GetAtt:
-        - AuthRole
-        - Arn
+      Value: !Ref AuthRole.Arn
