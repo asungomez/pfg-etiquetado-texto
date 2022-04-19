@@ -18,7 +18,7 @@ resources:
       Type: 'AWS::S3::BucketPolicy'
       DependsOn: StorageBucket
       Properties:
-        BucketName: ${env:APP_NAME}-storage-bucket
+        Bucket: ${env:APP_NAME}-storage-bucket
         PolicyDocument:
           Version: "2012-10-17"
           Statement:
