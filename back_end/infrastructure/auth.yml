@@ -17,6 +17,7 @@ resources:
   Resources:
     AuthRole:
       Type: 'AWS::IAM::Role'
+      DependsOn: StorageBucket
       Properties:
         RoleName: ${env:APP_NAME}-auth-role
         AssumeRolePolicyDocument:
@@ -62,6 +63,7 @@ resources:
               Effect: Allow
     UnauthRole:
       Type: 'AWS::IAM::Role'
+      DependsOn: StorageBucket
       Properties:
         RoleName: ${env:APP_NAME}-unauth-role
         AssumeRolePolicyDocument:
