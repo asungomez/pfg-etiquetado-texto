@@ -11,6 +11,7 @@ provider:
 custom:
   customMessageFunctionName: ${env:APP_NAME}-custom-message
   customMessageFunctionArn: arn:aws:lambda:${opt:region}:${aws:accountId}:function:${self:custom.customMessageFunctionName}
+  storageBucketName: ${env:APP_NAME}-storage
 
 resources:
   Resources:
@@ -26,6 +27,39 @@ resources:
               Principal:
                 Federated: cognito-identity.amazonaws.com
               Action: 'sts:AssumeRoleWithWebIdentity'
+            - Action:
+              - s3:GetObject
+              - s3:PutObject
+              - s3:DeleteObject
+              Resource:
+              - arn:aws:s3:::${self:custom.customMessageFunctionName}/public/*
+              - arn:aws:s3:::${self:custom.customMessageFunctionName}/protected/${cognito-identity.amazonaws.com:sub}/*
+              - arn:aws:s3:::${self:custom.customMessageFunctionName}/private/${cognito-identity.amazonaws.com:sub}/*
+              Effect: Allow
+            - Action:
+              - s3:PutObject
+              Resource:
+              - arn:aws:s3:::${self:custom.customMessageFunctionName}/uploads/*
+              Effect: Allow
+            - Action:
+              - s3:GetObject
+              Resource:
+              - arn:aws:s3:::${self:custom.customMessageFunctionName}/protected/*
+              Effect: Allow
+            - Condition:
+                StringLike:
+                  s3:prefix:
+                  - public/
+                  - public/*
+                  - protected/
+                  - protected/*
+                  - private/${cognito-identity.amazonaws.com:sub}/
+                  - private/${cognito-identity.amazonaws.com:sub}/*
+              Action:
+              - s3:ListBucket
+              Resource:
+              - arn:aws:s3:::${self:custom.customMessageFunctionName}
+              Effect: Allow
     UnauthRole:
       Type: 'AWS::IAM::Role'
       Properties:
@@ -38,6 +72,35 @@ resources:
               Principal:
                 Federated: cognito-identity.amazonaws.com
               Action: 'sts:AssumeRoleWithWebIdentity'
+            - Action:
+              - s3:GetObject
+              - s3:PutObject
+              - s3:DeleteObject
+              Resource:
+              - arn:aws:s3:::${self:custom.customMessageFunctionName}/public/*
+              Effect: Allow
+            - Action:
+              - s3:PutObject
+              Resource:
+              - arn:aws:s3:::${self:custom.customMessageFunctionName}/uploads/*
+              Effect: Allow
+            - Action:
+              - s3:GetObject
+              Resource:
+              - arn:aws:s3:::${self:custom.customMessageFunctionName}/protected/*
+              Effect: Allow
+            - Condition:
+                StringLike:
+                  s3:prefix:
+                  - public/
+                  - public/*
+                  - protected/
+                  - protected/*
+              Action:
+              - s3:ListBucket
+              Resource:
+              - arn:aws:s3:::${self:custom.customMessageFunctionName}
+              Effect: Allow
     CustomMessageConfirmationBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -277,6 +340,10 @@ resources:
         - IdentityPool
         - AuthRole
         - UnauthRole
+    StorageBucket:
+      Type: 'AWS::S3::Bucket'
+      Properties:
+        BucketName: ${self:custom.storageBucketName}
   Outputs:
     UserPoolId:
       Description: User Pool ID
@@ -293,3 +360,6 @@ resources:
         Fn::GetAtt:
           - AuthRole
           - Arn
+    StorageBucketName:
+      Description: Storage for user's files
+      Value: ${self:custom.storageBucketName}

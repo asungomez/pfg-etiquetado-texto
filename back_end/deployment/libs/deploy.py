@@ -82,10 +82,9 @@ def deploy_custom_message(app_name, app_url, api_url, user_pool_id):
     environment
   )
 
-def deploy_storage(app_name, auth_role_arn):
+def deploy_storage(app_name):
   environment = {
-    "APP_NAME": app_name,
-    "AUTH_ROLE_ARN": auth_role_arn
+    "APP_NAME": app_name
   }
 
   deploy(

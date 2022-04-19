@@ -36,11 +36,6 @@ def set_credentials(credentials):
 def deploy(config):
     auth_outputs = deploy_auth(config["app"]["name"])
 
-    storage_outputs = deploy_storage(
-        config["app"]["name"],
-        auth_outputs["AuthRoleArn"]
-    )
-
     api_outputs = deploy_api(
         config["app"]["name"],
         auth_outputs
@@ -52,7 +47,7 @@ def deploy(config):
         config["repository"],
         auth_outputs,
         api_url,
-        storage_outputs["BucketName"]
+        auth_outputs["StorageBucketName"]
     )
 
     app = app_url(app_outputs["AppId"], config["repository"]["branch"])
@@ -77,7 +72,7 @@ def deploy(config):
         config["credentials"]["aws_region"], 
         auth_outputs, 
         api_url,
-        storage_outputs["BucketName"]
+        auth_outputs["StorageBucketName"]
         ))
 
 def main():

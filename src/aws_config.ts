@@ -14,4 +14,9 @@ export const awsConfig = {
       },
     ],
   },
+  Storage: {
+    AWSS3: {
+      bucket: process.env.REACT_APP_BUCKET_NAME,
+    },
+  },
 };
