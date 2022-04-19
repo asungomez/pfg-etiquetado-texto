@@ -10,7 +10,8 @@ def deploy_amplify_app(
   app_name, 
   repo_config,
   auth_config,
-  api_url
+  api_url,
+  bucket_name
   ):
 
   environment = {
@@ -21,7 +22,8 @@ def deploy_amplify_app(
     "IDENTITY_POOL_ID": auth_config["IdentityPoolId"],
     "USER_POOL_ID": auth_config["UserPoolId"],
     "USER_POOL_CLIENT": auth_config["UserPoolClientWeb"],
-    "API_URL": api_url
+    "API_URL": api_url,
+    "BUCKET_NAME": bucket_name
   }
 
   deploy(
