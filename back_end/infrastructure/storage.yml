@@ -1,0 +1,33 @@
+service: storage
+
+provider:
+  name: aws
+  profile: ${opt:aws-profile}
+  region: ${opt:region}
+  deploymentBucket:
+    name: ${env:APP_NAME}-deployment-bucket
+  stackName: ${env:APP_NAME}-storage
+
+resources:
+  Resources:
+    StorageBucket:
+      Type: 'AWS::S3::Bucket'
+      Properties:
+        BucketName: ${env:APP_NAME}-storage-bucket
+    StorageBucketPolicy:
+      Type: 'AWS::S3::BucketPolicy'
+      DependsOn: StorageBucket
+      Properties:
+        BucketName: ${env:APP_NAME}-storage-bucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: AllowWriteUser
+              Effect: Allow
+              Principal:
+                AWS:
+                  - ${env:AUTH_ROLE_ARN}
+              Action:
+                - s3:PutObject
+              
+                

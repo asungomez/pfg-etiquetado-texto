@@ -80,6 +80,18 @@ def deploy_custom_message(app_name, app_url, api_url, user_pool_id):
     environment
   )
 
+def deploy_storage(app_name, auth_role_arn):
+  environment = {
+    "APP_NAME": app_name,
+    "AUTH_ROLE_ARN": auth_role_arn
+  }
+
+  deploy(
+    INFRA_DIR,
+    environment,
+    template="storage.yml"
+  )
+
 
 def deploy(path, env, template="serverless.yml"):
 

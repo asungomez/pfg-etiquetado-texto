@@ -287,3 +287,8 @@ resources:
     UserPoolClientWeb:
       Description: User pool client for web application
       Value: !Ref UserPoolClientWeb
+    AuthRoleArn:
+      Description: Identity pool authenticated role
+      Value: Fn::GetAtt:
+        - AuthRole
+        - Arn

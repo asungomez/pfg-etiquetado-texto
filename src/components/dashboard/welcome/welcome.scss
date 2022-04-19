@@ -1,0 +1,34 @@
+.welcome {
+  & &__panel {
+    max-width: 746px;
+    margin: 0 auto;
+    width: auto;
+    margin-top: 8px !important;
+  }
+
+  & &__content {
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin: 0 auto;
+    max-width: 1320px;
+    padding: 0;
+    background-color: #fafbfd;
+
+    &__body {
+      position: relative;
+    }
+  }
+
+  & &__form {
+    padding: 8px 60px 60px 60px;
+  }
+
+  & &__title {
+    padding: 60px 60px 8px 60px;
+
+    &-text {
+      color: #006bb4;
+    }
+  }
+}

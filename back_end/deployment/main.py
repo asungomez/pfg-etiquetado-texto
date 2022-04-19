@@ -2,7 +2,7 @@ import argparse
 
 from libs.repository import clone_repository
 import os
-from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message, deploy_api
+from libs.deploy import deploy_amplify_app, deploy_auth, deploy_custom_message, deploy_api, deploy_storage
 from libs.aws import create_deployment_bucket, app_url, api_endpoint
 from libs.utils import local_env_file
 import logging
@@ -62,6 +62,11 @@ def deploy(config):
         app,
         api_url,
         auth_outputs["UserPoolId"]
+    )
+
+    deploy_storage(
+        config["app"]["name"],
+        auth_outputs["AuthRoleArn"]
     )
 
     print()
